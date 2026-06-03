@@ -1,1 +1,371 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinguoFeed — новости филологии и гуманитарных наук</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', 'Roboto', system-ui, sans-serif;
+            background: #f5f7fb;
+            color: #1e293b;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+        /* Шапка */
+        .header {
+            background: white;
+            border-radius: 30px;
+            padding: 20px 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        h1 {
+            font-size: 2rem;
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.5px;
+        }
+        .sub {
+            color: #475569;
+            margin-top: 5px;
+        }
+        .filter-buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .filter-btn {
+            background: #f1f5f9;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #1e293b;
+        }
+        .filter-btn.active {
+            background: #2563eb;
+            color: white;
+            box-shadow: 0 4px 10px rgba(37,99,235,0.3);
+        }
+        .filter-btn:hover {
+            background: #e2e8f0;
+            transform: translateY(-2px);
+        }
+        /* Сетка карточек */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        .card {
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 30px -12px rgba(0,0,0,0.15);
+        }
+        .card-content {
+            padding: 20px;
+            flex: 1;
+        }
+        .card-category {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: #2563eb;
+            margin-bottom: 10px;
+            letter-spacing: 0.5px;
+        }
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            line-height: 1.4;
+            margin-bottom: 12px;
+        }
+        .card-title a {
+            color: #0f172a;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .card-title a:hover {
+            color: #2563eb;
+        }
+        .card-description {
+            color: #475569;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 16px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+            color: #64748b;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 12px;
+            margin-top: auto;
+        }
+        .read-more {
+            background: #f1f5f9;
+            padding: 6px 14px;
+            border-radius: 30px;
+            text-decoration: none;
+            color: #1e293b;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+        .read-more:hover {
+            background: #2563eb;
+            color: white;
+        }
+        /* Загрузка и ошибки */
+        .loader {
+            text-align: center;
+            padding: 50px;
+            color: #475569;
+        }
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #e2e8f0;
+            border-top-color: #2563eb;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 15px;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .error-message {
+            background: #fee2e2;
+            color: #b91c1c;
+            padding: 20px;
+            border-radius: 20px;
+            text-align: center;
+        }
+        .footer {
+            text-align: center;
+            padding: 30px 0;
+            color: #64748b;
+            font-size: 0.8rem;
+            border-top: 1px solid #e2e8f0;
+            margin-top: 20px;
+        }
+        @media (max-width: 700px) {
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            .news-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div>
+            <h1>📚 LinguoFeed</h1>
+            <div class="sub">Актуальные новости лингвистики, литературы и гуманитарных наук</div>
+        </div>
+        <div class="filter-buttons" id="filterButtons">
+            <button class="filter-btn active" data-category="all">Все</button>
+            <button class="filter-btn" data-category="linguistics">🗣 Лингвистика</button>
+            <button class="filter-btn" data-category="literature">📖 Литература</button>
+            <button class="filter-btn" data-category="education">🎓 Образование</button>
+        </div>
+    </div>
 
+    <div id="newsContainer" class="news-grid">
+        <div class="loader"><div class="spinner"></div>Загрузка свежих новостей...</div>
+    </div>
+    <div class="footer">
+        🧠 Новости собираются автоматически из открытых русскоязычных источников. Данные обновляются при каждом посещении.
+    </div>
+</div>
+
+<script>
+    // Список RSS-источников (название, URL через rss2json, категория)
+    // Используем бесплатный сервис rss2json.com (без ключа, но есть лимит 100 запросов/день — нам хватит)
+    // Для стабильности я добавил несколько источников, которые обычно отдают русский контент.
+    const sources = [
+        { name: "ПостНаука (Лингвистика)", url: "https://api.rss2json.com/v1/api.json?rss_url=https://postnauka.ru/feed", category: "linguistics", filter: (item) => item.categories?.some(cat => cat.toLowerCase().includes("лингвистик") || cat.toLowerCase().includes("язык")) },
+        { name: "Arzamas", url: "https://api.rss2json.com/v1/api.json?rss_url=https://arzamas.academy/feed", category: "literature", filter: null },
+        { name: "Горький", url: "https://api.rss2json.com/v1/api.json?rss_url=https://gorky.media/feed/", category: "literature", filter: null },
+        { name: "Троицкий вариант", url: "https://api.rss2json.com/v1/api.json?rss_url=https://trv-science.ru/feed/", category: "linguistics", filter: null },
+        { name: "Элементы (Наука)", url: "https://api.rss2json.com/v1/api.json?rss_url=https://elementy.ru/rss/news", category: "linguistics", filter: (item) => item.title.toLowerCase().includes("язык") || item.description.toLowerCase().includes("лингвистик") },
+        { name: "ВШЭ Лингвистика", url: "https://api.rss2json.com/v1/api.json?rss_url=https://ling.hse.ru/news/news_rss.xml", category: "education", filter: null }
+    ];
+
+    let allArticles = [];
+    let currentFilter = "all";
+
+    // Функция загрузки одного источника
+    async function fetchSource(source) {
+        try {
+            const response = await fetch(source.url);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            const data = await response.json();
+            if (!data.items || data.items.length === 0) return [];
+            
+            // Преобразуем каждый элемент в универсальный формат
+            let articles = data.items.map(item => {
+                // Извлекаем описание (убираем HTML теги)
+                let description = item.description || item.content || "";
+                description = description.replace(/<[^>]*>/g, '').substring(0, 250);
+                // Дата публикации
+                let pubDate = item.pubDate ? new Date(item.pubDate) : new Date();
+                // Категория из источника, если есть фильтр по контенту
+                let articleCategory = source.category;
+                if (source.filter && !source.filter(item)) {
+                    // если фильтр не пройден, пропускаем статью (возвращаем null)
+                    return null;
+                }
+                return {
+                    title: item.title || "Без названия",
+                    link: item.link || "#",
+                    description: description,
+                    pubDate: pubDate,
+                    sourceName: source.name,
+                    category: articleCategory,
+                    guid: item.guid || item.link
+                };
+            }).filter(art => art !== null);
+            
+            return articles;
+        } catch (error) {
+            console.warn(`Ошибка загрузки источника ${source.name}:`, error);
+            return [];
+        }
+    }
+
+    // Загрузка всех источников параллельно
+    async function loadAllNews() {
+        const container = document.getElementById('newsContainer');
+        container.innerHTML = '<div class="loader"><div class="spinner"></div>Загрузка новостей...</div>';
+        
+        const promises = sources.map(source => fetchSource(source));
+        const results = await Promise.all(promises);
+        allArticles = results.flat();
+        
+        // Сортировка по дате (новые сверху)
+        allArticles.sort((a, b) => b.pubDate - a.pubDate);
+        
+        renderNews();
+    }
+
+    // Рендер карточек с учетом фильтра
+    function renderNews() {
+        const container = document.getElementById('newsContainer');
+        let filtered = allArticles;
+        if (currentFilter !== 'all') {
+            filtered = allArticles.filter(art => art.category === currentFilter);
+        }
+        
+        if (filtered.length === 0) {
+            container.innerHTML = '<div class="error-message">😕 Новостей по выбранной теме пока нет. Попробуйте другой фильтр или зайдите позже.</div>';
+            return;
+        }
+        
+        const html = filtered.map(article => {
+            // Форматируем дату
+            const dateStr = article.pubDate.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+            let categoryLabel = "";
+            switch (article.category) {
+                case 'linguistics': categoryLabel = "🗣 Лингвистика"; break;
+                case 'literature': categoryLabel = "📖 Литература"; break;
+                case 'education': categoryLabel = "🎓 Образование"; break;
+                default: categoryLabel = "📰 Новость";
+            }
+            return `
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-category">${categoryLabel}</div>
+                        <div class="card-title"><a href="${article.link}" target="_blank" rel="noopener noreferrer">${escapeHtml(article.title)}</a></div>
+                        <div class="card-description">${escapeHtml(article.description)}...</div>
+                        <div class="card-meta">
+                            <span>📅 ${dateStr}</span>
+                            <span>📌 ${article.sourceName}</span>
+                            <a href="${article.link}" class="read-more" target="_blank">Читать →</a>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+        
+        container.innerHTML = html;
+    }
+    
+    // Простая защита от XSS
+    function escapeHtml(str) {
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+            return c;
+        });
+    }
+
+    // Обработчики фильтров и сохранение выбранного
+    function initFilters() {
+        const buttons = document.querySelectorAll('.filter-btn');
+        buttons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                buttons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentFilter = btn.dataset.category;
+                localStorage.setItem('linguoFilter', currentFilter);
+                renderNews();
+            });
+        });
+        const savedFilter = localStorage.getItem('linguoFilter');
+        if (savedFilter && ['all','linguistics','literature','education'].includes(savedFilter)) {
+            currentFilter = savedFilter;
+            const activeBtn = document.querySelector(`.filter-btn[data-category="${currentFilter}"]`);
+            if (activeBtn) {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                activeBtn.classList.add('active');
+            }
+        }
+    }
+
+    // Запуск
+    loadAllNews();
+    initFilters();
+</script>
+</body>
+</html>
