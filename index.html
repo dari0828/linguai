@@ -1,12 +1,26 @@
+Отлично, я доработал курс до полноценного 30-дневного интенсива, основываясь на вашем пожелании. Чтобы курс был действительно полезным и эффективным, я использовал программу академического учебника «Французский язык» И.Н. Поповой, Ж.А. Казаковой. Это проверенная база, которая позволяет выучить язык структурно и с нуля — от произношения до чтения литературы в оригинале.
+
+Вот как изменился сайт:
+-   **Полноценные 30 уроков**: Каждый урок теперь посвящен одной ключевой теме из учебника, например, спряжению глаголов `avoir` или `être`, женскому роду прилагательных, настоящему времени глаголов I группы.
+-   **Серьезный теоретический блок**: В начале каждого урока добавлен подробный, структурированный раздел `📖 Теория`. Теперь у вас есть полноценный учебник на сайте.
+-   **Только карточки для запоминания**: Мини-тесты убраны, чтобы не отвлекать от процесса изучения. Оставлены только карточки для активной практики лексики.
+-   **Общий итоговый экзамен**: В конце курса вас ждет большой тест из 30 вопросов, который проверит все полученные знания.
+-   **Удобная навигация**: Сохранен прежний дизайн, но навигация стала еще удобнее.
+
+Скопируйте приведенный ниже код в файл `index.html` и откройте в браузере, чтобы увидеть обновленную версию сайта. Вы также можете загрузить его на GitHub Pages.
+
+```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Французский за 30 дней | Полный курс</title>
+    <title>Французский за 30 дней | Учебник Поповой и Казаковой</title>
+    <!-- Fonts and Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        /* Reset & Base */
         * {
             margin: 0;
             padding: 0;
@@ -18,7 +32,7 @@
             color: #2c2418;
             overflow-x: hidden;
         }
-        /* парящие предметы (оставляем красоту) */
+        /* Floating animations (keeping the charming design) */
         .floating-food {
             position: fixed;
             top: 0;
@@ -45,7 +59,7 @@
             position: relative;
             z-index: 2;
         }
-        /* шапка */
+        /* Navigation */
         nav {
             display: flex;
             justify-content: space-between;
@@ -66,7 +80,7 @@
             color: #b45f2b;
         }
         .logo i { color: #c97e3a; margin-right: 5px; }
-        /* герой */
+        /* Hero Section */
         .hero {
             min-height: 50vh;
             display: flex;
@@ -101,7 +115,7 @@
             transition: 0.3s;
         }
         .btn:hover { background: #9a4c1e; transform: translateY(-2px); }
-        /* макет: уроки слева, контент справа (на десктопе) */
+        /* Main Layout: Sidebar (Lessons) + Content Area */
         .main-layout {
             display: flex;
             gap: 2rem;
@@ -152,12 +166,27 @@
             padding: 2rem;
             backdrop-filter: blur(3px);
         }
+        /* Theory and Flashcard Styles */
         .theory-block {
             background: white;
             border-radius: 28px;
             padding: 1.5rem;
             margin-bottom: 2rem;
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .theory-block h3 {
+            color: #b45f2b;
+            margin-bottom: 1rem;
+            border-left: 5px solid #e0a26b;
+            padding-left: 1rem;
+        }
+        .theory-block p {
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        .theory-block ul, .theory-block ol {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
         }
         .flashcards {
             display: flex;
@@ -167,8 +196,8 @@
             justify-content: center;
         }
         .flashcard {
-            width: 180px;
-            height: 130px;
+            width: 200px;
+            height: 140px;
             background: white;
             border-radius: 20px;
             box-shadow: 0 6px 14px rgba(0,0,0,0.1);
@@ -193,24 +222,43 @@
         }
         .flashcard .front { background: white; transform: rotateY(0deg); }
         .flashcard .back { background: #fff0e0; transform: rotateY(180deg); color: #b45f2b; }
-        .test-area {
+        /* Final Exam Styles */
+        .exam-area {
             background: #fff3e6;
             border-radius: 28px;
-            padding: 1.5rem;
-            margin-top: 1.5rem;
+            padding: 2rem;
+            margin-top: 2rem;
         }
-        .question { margin: 1rem 0; padding: 0.5rem; border-bottom: 1px solid #e2c7ab; }
-        .options { display: flex; gap: 0.8rem; margin-top: 0.5rem; flex-wrap: wrap; }
-        .opt-btn {
+        .exam-question {
+            margin: 1.5rem 0;
+            padding: 1rem;
+            border-bottom: 1px solid #e2c7ab;
+        }
+        .exam-question p {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        .exam-options {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .exam-opt-btn {
             background: #e9d9c8;
             border: none;
             padding: 5px 15px;
             border-radius: 30px;
             cursor: pointer;
+            transition: 0.2s;
         }
-        .opt-btn.correct { background: #8bc34a; color: white; }
-        .opt-btn.wrong { background: #e57373; color: white; }
-        .result { margin-top: 0.5rem; font-weight: bold; }
+        .exam-opt-btn.selected {
+            background: #b45f2b;
+            color: white;
+        }
+        .exam-result {
+            margin-top: 2rem;
+            text-align: center;
+        }
         footer {
             background: #2c2418;
             color: #ebd5b3;
@@ -234,12 +282,12 @@
 </div>
 <div class="content">
     <nav>
-        <div class="logo"><i class="fas fa-language"></i> Français 30 jours</div>
-        <div style="font-size: 0.9rem;">🇫🇷 Учим с нуля</div>
+        <div class="logo"><i class="fas fa-book-open"></i> Français 30 jours</div>
+        <div style="font-size: 0.9rem;">🇫🇷 По учебнику Поповой & Казаковой</div>
     </nav>
     <div class="hero">
         <h1>Французский за 30 дней</h1>
-        <p>Полный интерактивный курс. Каждый урок — теория → карточки → тест.</p>
+        <p>Полный академический курс на базе учебника И.Н. Поповой и Ж.А. Казаковой.<br>30 насыщенных уроков с теорией, лексикой и итоговым экзаменом.</p>
         <button class="btn" id="startFirstLesson">Начать с урока 1</button>
     </div>
 
@@ -247,6 +295,8 @@
         <div class="sidebar">
             <h3><i class="fas fa-list"></i> Уроки 1–30</h3>
             <div class="lesson-list" id="lessonList"></div>
+            <hr style="margin: 1rem 0;">
+            <button class="btn" id="takeExamBtn" style="width:100%; background:#6f4e2e;"><i class="fas fa-vial"></i> Итоговый экзамен</button>
         </div>
         <div class="content-area" id="lessonContent">
             <p style="text-align: center; padding: 2rem;">👆 Выберите урок слева, чтобы начать изучение.</p>
@@ -254,124 +304,475 @@
     </div>
     <footer>
         <p>« Apprendre une langue, c'est ouvrir une nouvelle porte »</p>
-        <p>30 уроков, чтобы заговорить по-французски 🇫🇷</p>
+        <p>30 уроков на основе проверенной методики. Учитесь системно 🇫🇷</p>
     </footer>
 </div>
 
 <script>
-    // ----- ГЕНЕРАЦИЯ 30 УРОКОВ С ТЕМАМИ -----
-    // Для первых 10 уроков — детальный контент. Для остальных — шаблонный, но с разными темами.
-    // Пользователь при желании легко заменит текст.
-    const themes = [
-        "Алфавит и произношение", "Приветствия и прощания", "Местоимения и глагол être", "Глагол avoir и возраст",
-        "Числа 1-10", "Цвета", "Дни недели", "Месяцы и времена года", "Семья", "Еда и напитки",
-        "Одежда", "Город и транспорт", "Профессии", "Хобби", "Погода",
-        "Ориентация в пространстве", "Магазины и покупки", "Время и часы", "Повседневные действия", "Модальные глаголы",
-        "Прошедшее время (passé composé)", "Будущее время", "Отрицание", "Вопросы", "Предлоги",
-        "Прилагательные", "Мой день (режим)", "Путешествия", "Культура Франции", "Повторение и диалог"
-    ];
-    // Функция генерации урока по индексу (1-30)
-    function generateLesson(lessonNum) {
-        const theme = themes[lessonNum-1];
-        // Теория: краткое объяснение
-        let theory = `<h3>📖 Тема: ${theme}</h3><p>`;
-        if(lessonNum === 1) theory += "Французский алфавит состоит из 26 букв. Буква 'e' с ударениями: é, è, ê. Произношение: 'r' гортанное, 'u' как в слове 'тюль'.<br>Пример: A - a, B - bé, C - cé...";
-        else if(lessonNum === 2) theory += "Bonjour! (Здравствуйте), Salut! (Привет), Au revoir! (До свидания), Merci (Спасибо), De rien (Не за что).";
-        else if(lessonNum === 3) theory += "Местоимения: je (я), tu (ты), il/elle (он/она), nous (мы), vous (вы), ils/elles (они). Глагол être (быть): je suis, tu es, il est, nous sommes, vous êtes, ils sont.";
-        else if(lessonNum === 4) theory += "Глагол avoir (иметь): j'ai, tu as, il a, nous avons, vous avez, ils ont. Например: j'ai 20 ans (мне 20 лет).";
-        else if(lessonNum === 5) theory += "Числа 1-10: un, deux, trois, quatre, cinq, six, sept, huit, neuf, dix.";
-        else if(lessonNum === 6) theory += "Цвета: rouge (красный), bleu (синий), vert (зелёный), jaune (жёлтый), noir (чёрный), blanc (белый).";
-        else if(lessonNum === 7) theory += "Дни недели: lundi, mardi, mercredi, jeudi, vendredi, samedi, dimanche.";
-        else if(lessonNum === 8) theory += "Месяцы: janvier, février, mars, avril, mai, juin, juillet, août, septembre, octobre, novembre, décembre. Времена года: printemps (весна), été (лето), automne (осень), hiver (зима).";
-        else if(lessonNum === 9) theory += "Семья: père (отец), mère (мать), frère (брат), sœur (сестра), fils (сын), fille (дочь).";
-        else if(lessonNum === 10) theory += "Еда: pain (хлеб), fromage (сыр), eau (вода), vin (вино), croissant (круассан).";
-        else theory += `Урок ${lessonNum} посвящён теме "${theme}". Изучите основные слова и фразы, приведённые в карточках. Французский — язык любви и дипломатии. Повторяйте вслух!`;
-        theory += "</p>";
-        // Генерация карточек (3-4 штуки) на основе темы
-        let flashcards = [];
-        if(lessonNum === 1) flashcards = [{front:"A", back:"а"},{front:"B", back:"бэ"},{front:"E (с острым ударением)", back:"é"},{front:"R", back:"эр (гортанный)"}];
-        else if(lessonNum === 2) flashcards = [{front:"Здравствуйте", back:"Bonjour"},{front:"Привет", back:"Salut"},{front:"Спасибо", back:"Merci"},{front:"До свидания", back:"Au revoir"}];
-        else if(lessonNum === 3) flashcards = [{front:"Я есть", back:"Je suis"},{front:"Ты есть", back:"Tu es"},{front:"Он есть", back:"Il est"},{front:"Мы есть", back:"Nous sommes"}];
-        else if(lessonNum === 4) flashcards = [{front:"Я имею", back:"J'ai"},{front:"У тебя есть", back:"Tu as"},{front:"У него есть", back:"Il a"},{front:"У нас есть", back:"Nous avons"}];
-        else if(lessonNum === 5) flashcards = [{front:"Один", back:"un"},{front:"Два", back:"deux"},{front:"Три", back:"trois"},{front:"Пять", back:"cinq"}];
-        else if(lessonNum === 6) flashcards = [{front:"Красный", back:"rouge"},{front:"Синий", back:"bleu"},{front:"Зелёный", back:"vert"},{front:"Белый", back:"blanc"}];
-        else if(lessonNum === 7) flashcards = [{front:"Понедельник", back:"lundi"},{front:"Среда", back:"mercredi"},{front:"Пятница", back:"vendredi"},{front:"Воскресенье", back:"dimanche"}];
-        else if(lessonNum === 8) flashcards = [{front:"Январь", back:"janvier"},{front:"Май", back:"mai"},{front:"Лето", back:"été"},{front:"Зима", back:"hiver"}];
-        else if(lessonNum === 9) flashcards = [{front:"Отец", back:"père"},{front:"Мать", back:"mère"},{front:"Брат", back:"frère"},{front:"Сестра", back:"sœur"}];
-        else if(lessonNum === 10) flashcards = [{front:"Хлеб", back:"pain"},{front:"Сыр", back:"fromage"},{front:"Вода", back:"eau"},{front:"Вино", back:"vin"}];
-        else {
-            // универсальные карточки для остальных уроков
-            flashcards = [
-                {front: `Ключевое слово урока ${lessonNum}`, back: `Mot-clé ${lessonNum}`},
-                {front: "Пример фразы", back: "Exemple de phrase"},
-                {front: "Переведите 'Приветствие'", back: "Saluer"},
-            ];
+    // --------------------------------------------------------------
+    // 30 УРОКОВ НА ОСНОВЕ УЧЕБНИКА ПОПОВОЙ И КАЗАКОВОЙ
+    // Каждый урок: Теория (объемная, структурированная) + Карточки (8-10 слов)
+    // --------------------------------------------------------------
+    
+    const lessonsData = {
+        1: {
+            title: "Фонетика. Гласные [a], [e], [i], [u] и согласные [p], [t], [k]",
+            theory: `<h3>🎤 Артикуляция и произношение</h3>
+            <p><strong>Французский язык отличается от русского четкой артикуляцией и отсутствием редукции гласных.</strong> Это значит, что все гласные произносятся одинаково ясно как под ударением, так и без него.</p>
+            <ul>
+                <li><strong>[a]</strong> — как русская 'а' под ударением (la, ma, sa). Пример: <em>Papa, camarade</em>.</li>
+                <li><strong>[e]</strong> — напоминает русскую 'э', но более закрытый. Встречается в суффиксе -er и в слове <em>et</em>. Пример: <em>parler, été</em>.</li>
+                <li><strong>[i]</strong> — русское 'и', но напряженнее и короче. Пример: <em>lit, vie, si</em>.</li>
+                <li><strong>[u]</strong> — русское 'у', без лабиализации. Пример: <em>tout, où, cou</em>.</li>
+                <li><strong>Согласные [p], [t], [k]</strong> произносятся без придыхания (в отличие от английского). Пример: <em>Paris, table, qui</em>.</li>
+            </ul>
+            <p><strong>Важно:</strong> Во французском нет палатализации (смягчения) согласных перед гласными 'и', 'е'. 'T' всегда твердый.</p>
+            <p><em>Совет:</em> Повторяйте вслух за диктором (воображаемым). Тренируйте чтение простых слов: date, carte, vite, tu, qui.</p>`,
+            flashcards: [
+                { front: "Отец", back: "père" }, { front: "Мать", back: "mère" }, { front: "Стул", back: "chaise" },
+                { front: "Стол", back: "table" }, { front: "Вот", back: "voilà" }, { front: "Там", back: "voilà" },
+                { front: "Да", back: "oui" }, { front: "Нет", back: "non" }, { front: "Здравствуйте", back: "bonjour" }
+            ]
+        },
+        2: {
+            title: "Фонетика. Носовые гласные [ɑ̃], [ɔ̃], [ɛ̃], [œ̃]",
+            theory: `<h3>👃 Носовые гласные — визитная карточка французского</h3>
+            <p>Во французском есть четыре носовых гласных. Они образуются при прохождении воздуха одновременно через рот и нос.</p>
+            <ul>
+                <li><strong>[ɑ̃]</strong> — произносится как 'а' в нос. Буквы: an, am, en, em. Пример: <em>enfant, chambre, vent</em>.</li>
+                <li><strong>[ɔ̃]</strong> — 'о' в нос. Буквы: on, om. Пример: <em>bonbon, ombre, nom</em>.</li>
+                <li><strong>[ɛ̃]</strong> — 'э' в нос. Буквы: in, im, ain, aim, ein, eim. Пример: <em>vin, simple, pain, plein</em>.</li>
+                <li><strong>[œ̃]</strong> — 'ё' в нос (редкий, сливается с [ɛ̃] в современном языке). Буквы: un, um. Пример: <em>brun, parfum</em>.</li>
+            </ul>
+            <p><strong>Упражнение:</strong> Прочитайте вслух: <em>un bon vin blanc</em> (хорошее белое вино).</p>`,
+            flashcards: [
+                { front: "Ребёнок", back: "enfant" }, { front: "Ветер", back: "vent" }, { front: "Комната", back: "chambre" },
+                { front: "Имя", back: "nom" }, { front: "Вино", back: "vin" }, { front: "Хлеб", back: "pain" },
+                { front: "Коричневый", back: "brun" }, { front: "Духи", back: "parfum" }, { front: "Простой", back: "simple" }
+            ]
+        },
+        3: {
+            title: "Грамматика. Артикли: определённый, неопределённый, частичный",
+            theory: `<h3>📚 Французские артикли</h3>
+            <p>В отличие от русского, во французском языке имя существительное почти всегда сопровождается артиклем, который указывает на род, число и определённость/неопределённость.</p>
+            <ul>
+                <li><strong>Определённый артикль (le, la, les):</strong> указывает на предмет, известный собеседникам. Le - м.р., la - ж.р., les - мн.ч. Пример: <em>le livre</em> (конкретная книга).</li>
+                <li><strong>Неопределённый артикль (un, une, des):</strong> указывает на предмет, неизвестный или впервые упоминаемый. Un - м.р., une - ж.р., des - мн.ч. Пример: <em>un livre</em> (какая-то книга).</li>
+                <li><strong>Частичный артикль (du, de la, de l'):</strong> используется перед неисчисляемыми существительными (еда, жидкости, абстракции). Пример: <em>du pain</em> (немного хлеба), <em>de l'eau</em> (немного воды).</li>
+            </ul>
+            <p><strong>Важно:</strong> Перед гласной или h немой le/la превращаются в l'. Пример: <em>l'ami</em> (друг).</p>`,
+            flashcards: [
+                { front: "Книга (опред.)", back: "le livre" }, { front: "Книга (неопред.)", back: "un livre" },
+                { front: "Хлеб (частич.)", back: "du pain" }, { front: "Вода", back: "de l'eau" },
+                { front: "Стул (опред.)", back: "la chaise" }, { front: "Друзья (неопред.)", back: "des amis" },
+                { front: "Молоко", back: "du lait" }, { front: "Чай", back: "du thé" }
+            ]
+        },
+        4: {
+            title: "Глаголы avoir и être. Настоящее время",
+            theory: `<h3>⚡ Два главных глагола-связки и вспомогательных глагола</h3>
+            <p><strong>Avoir (иметь)</strong> и <strong>Être (быть)</strong> — самые важные глаголы французского языка. Они используются как самостоятельные глаголы и как вспомогательные для образования сложных времен.</p>
+            <ul>
+                <li><strong>Être (быть):</strong> Je suis, Tu es, Il/Elle est, Nous sommes, Vous êtes, Ils/Elles sont.</li>
+                <li><strong>Avoir (иметь):</strong> J'ai, Tu as, Il/Elle a, Nous avons, Vous avez, Ils/Elles ont.</li>
+            </ul>
+            <p><strong>Примеры:</strong> <em>Je suis étudiant</em> (Я студент). <em>J'ai 20 ans</em> (Мне 20 лет). <em>Nous sommes en France</em> (Мы во Франции).</p>
+            <p><strong>Важно:</strong> Эти глаголы имеют особое спряжение, их нужно выучить наизусть!</p>`,
+            flashcards: [
+                { front: "Я есть", back: "je suis" }, { front: "Ты есть", back: "tu es" }, { front: "Он есть", back: "il est" },
+                { front: "Мы есть", back: "nous sommes" }, { front: "Вы есть", back: "vous êtes" }, { front: "Они есть (м.р.)", back: "ils sont" },
+                { front: "Я имею", back: "j'ai" }, { front: "Ты имеешь", back: "tu as" }, { front: "Он имеет", back: "il a" },
+                { front: "Мы имеем", back: "nous avons" }, { front: "Вы имеете", back: "vous avez" }, { front: "Они имеют", back: "ils ont" }
+            ]
+        },
+        5: {
+            title: "Спряжение глаголов I группы. Правильные глаголы на -er",
+            theory: `<h3>📝 Самый большой класс глаголов</h3>
+            <p>Глаголы I группы оканчиваются на -er. Это правильные глаголы, спрягающиеся по единому шаблону.</p>
+            <p><strong>Окончания в настоящем времени:</strong> -e, -es, -e, -ons, -ez, -ent</p>
+            <p><strong>Пример с глаголом parler (говорить):</strong> je parle, tu parles, il parle, nous parlons, vous parlez, ils parlent.</p>
+            <p><strong>Важно:</strong> Окончания -e, -es, -e, -ent не произносятся! Основа глагола — инфинитив без окончания -er. В 1-м лице множественного числа окончание -ons произносится, в -ez тоже.</p>
+            <p><strong>Упражнение:</strong> Проспрягайте глаголы: <em>manger</em> (есть), <em>regarder</em> (смотреть), <em>écouter</em> (слушать).</p>`,
+            flashcards: [
+                { front: "Говорить", back: "parler" }, { front: "Я говорю", back: "je parle" }, { front: "Ты слушаешь", back: "tu écoutes" },
+                { front: "Он смотрит", back: "il regarde" }, { front: "Мы едим", back: "nous mangeons" }, { front: "Вы работаете", back: "vous travaillez" },
+                { front: "Они любят", back: "ils aiment" }, { front: "Петь", back: "chanter" }, { front: "Танцевать", back: "danser" }
+            ]
+        },
+        6: {
+            title: "Спряжение глаголов II группы. Глаголы на -ir (finir)",
+            theory: `<h3>✍️ Вторая группа: правильные глаголы на -ir</h3>
+            <p>Глаголы II группы оканчиваются на -ir и имеют суффикс -iss- во множественном числе.</p>
+            <p><strong>Окончания:</strong> -is, -is, -it, -issons, -issez, -issent</p>
+            <p><strong>Пример с глаголом finir (заканчивать):</strong> je finis, tu finis, il finit, nous finissons, vous finissez, ils finissent.</p>
+            <p><strong>Как отличить от III группы?</strong> Глаголы II группы имеют суффикс -iss- в формах nous, vous, ils. Большинство глаголов на -ir относятся к III группе (неправильные), поэтому их нужно запоминать.</p>`,
+            flashcards: [
+                { front: "Заканчивать", back: "finir" }, { front: "Я заканчиваю", back: "je finis" }, { front: "Мы заканчиваем", back: "nous finissons" },
+                { front: "Выбирать", back: "choisir" }, { front: "Они выбирают", back: "ils choisissent" }, { front: "Успевать", back: "réussir" },
+                { front: "Ты успеваешь", back: "tu réussis" }, { front: "Наказывать", back: "punir" }
+            ]
+        },
+        7: {
+            title: "Отрицательная форма глаголов. Частицы ne... pas",
+            theory: `<h3>🚫 Как сказать «не»?</h3>
+            <p>Отрицание во французском языке строится с помощью двух частиц: <strong>ne</strong> (перед глаголом) и <strong>pas</strong> (после глагола). В разговорной речи 'ne' часто опускается.</p>
+            <p><strong>Схема:</strong> sujet + ne + verbe + pas + ...</p>
+            <p><strong>Примеры:</strong> <em>Je ne parle pas russe.</em> (Я не говорю по-русски). <em>Nous n'aimons pas le café.</em> (Мы не любим кофе). — Перед гласной ne превращается в n'.</p>
+            <p><strong>Другие отрицательные частицы:</strong> ne... rien (ничего), ne... jamais (никогда), ne... personne (никто).</p>`,
+            flashcards: [
+                { front: "Я не говорю", back: "je ne parle pas" }, { front: "Мы не любим", back: "nous n'aimons pas" },
+                { front: "Никогда", back: "ne... jamais" }, { front: "Ничего", back: "ne... rien" },
+                { front: "Никто", back: "ne... personne" }, { front: "Они не работают", back: "ils ne travaillent pas" }
+            ]
+        },
+        8: {
+            title: "Вопросительная форма. Инверсия и оборот est-ce que",
+            theory: `<h3>❓ Три способа задать вопрос</h3>
+            <p>Во французском языке есть три основных способа построения общего вопроса (ответ 'да' или 'нет').</p>
+            <ul>
+                <li><strong>Интонация (разговорный):</strong> <em>Tu parles français?</em> (Ты говоришь по-французски?) — порядок слов прямой, меняется только интонация.</li>
+                <li><strong>Est-ce que (нейтральный):</strong> <em>Est-ce que tu parles français?</em> — самый простой и универсальный способ.</li>
+                <li><strong>Инверсия (формальный):</strong> <em>Parles-tu français?</em> — глагол и подлежащее меняются местами, добавляется дефис.</li>
+            </ul>
+            <p><strong>Специальные вопросы (с вопросительными словами):</strong> Où (где), Quand (когда), Pourquoi (почему), Comment (как), Quel(le) (какой).</p>`,
+            flashcards: [
+                { front: "Что?", back: "qu'est-ce que" }, { front: "Где?", back: "où" }, { front: "Когда?", back: "quand" },
+                { front: "Почему?", back: "pourquoi" }, { front: "Как?", back: "comment" }, { front: "Ты говоришь?", back: "tu parles?" },
+                { front: "Est-ce que...", back: "вопросительный оборот" }, { front: "Какой?", back: "quel / quelle" }
+            ]
+        },
+        9: {
+            title: "Порядковые числительные и даты",
+            theory: `<h3>📅 Первый, второй... и как сказать дату</h3>
+            <p><strong>Порядковые числительные:</strong> образуются прибавлением суффикса -ième к количественному числительному. Исключения: premier (первый), second (второй) / deuxième тоже допустимо.</p>
+            <ul>
+                <li>2ème, 3ème, 4ème, 5ème...</li>
+            </ul>
+            <p><strong>Даты:</strong> Во французском языке перед датой ставится определённый артикль <em>le</em>. Дни недели и месяцы пишутся со строчной буквы.</p>
+            <p><strong>Пример:</strong> <em>Nous sommes le 14 juillet.</em> — Сегодня 14 июля. <em>le premier mai</em> — 1 мая.</p>
+            <p><strong>Месяцы:</strong> janvier, février, mars, avril, mai, juin, juillet, août, septembre, octobre, novembre, décembre.</p>`,
+            flashcards: [
+                { front: "Первый", back: "premier" }, { front: "Второй", back: "deuxième" }, { front: "Третий", back: "troisième" },
+                { front: "Январь", back: "janvier" }, { front: "Май", back: "mai" }, { front: "Июль", back: "juillet" },
+                { front: "14 июля", back: "le quatorze juillet" }, { front: "Сентябрь", back: "septembre" }, { front: "Декабрь", back: "décembre" }
+            ]
+        },
+        10: {
+            title: "Притяжательные прилагательные",
+            theory: `<h3>🧑‍🤝‍🧑 Мой, твой, его, её, наш, ваш, их</h3>
+            <p>Притяжательные прилагательные согласуются с предметом обладания (по роду и числу), а не с обладателем.</p>
+            <p><strong>Единственное число:</strong> mon (мой - м.р.), ma (моя - ж.р.), mes (мои - мн.ч.); ton (твой), ta, tes; son (его/её), sa, ses.</p>
+            <p><strong>Множественное число:</strong> notre (наш/наша/наше), nos (наши); votre (ваш), vos (ваши); leur (их), leurs (их мн.ч.).</p>
+            <p><strong>Важное правило:</strong> Если существительное женского рода начинается с гласной или h немой, используется форма мужского рода для благозвучия: <em>mon amie</em> (моя подруга) вместо ma amie.</p>`,
+            flashcards: [
+                { front: "Мой друг (м.р.)", back: "mon ami" }, { front: "Моя подруга", back: "mon amie" }, { front: "Твоя книга", back: "ton livre" },
+                { front: "Его сестра", back: "sa sœur" }, { front: "Наш дом", back: "notre maison" }, { front: "Ваши родители", back: "vos parents" },
+                { front: "Их машина", back: "leur voiture" }, { front: "Мои родители", back: "mes parents" }
+            ]
+        },
+        // --- 11-20: Продолжение академической программы ---
+        11: {
+            title: "Указательные прилагательные ce, cet, cette, ces",
+            theory: `<h3>👈 Этот, эта, это, эти</h3>
+            <p>Указательные прилагательные ставятся перед существительным и указывают на конкретный предмет.</p>
+            <ul>
+                <li><strong>ce</strong> — перед сущ. м.р. ед.ч., начинающимся с согласной: <em>ce livre</em> (эта книга).</li>
+                <li><strong>cet</strong> — перед сущ. м.р. ед.ч., начинающимся с гласной или h немой: <em>cet ami</em> (этот друг), <em>cet homme</em> (этот человек).</li>
+                <li><strong>cette</strong> — перед сущ. ж.р. ед.ч.: <em>cette table</em> (этот стол).</li>
+                <li><strong>ces</strong> — перед сущ. мн.ч. обоих родов: <em>ces livres</em> (эти книги), <em>ces tables</em> (эти столы).</li>
+            </ul>`,
+            flashcards: [
+                { front: "Эта книга", back: "ce livre" }, { front: "Этот друг", back: "cet ami" }, { front: "Эта женщина", back: "cette femme" },
+                { front: "Эти люди", back: "ces gens" }, { front: "Этот отель", back: "cet hôtel" }, { front: "Эта идея", back: "cette idée" }
+            ]
+        },
+        12: {
+            title: "Ближайшее будущее время (Futur proche)",
+            theory: `<h3>⏳ Я собираюсь сделать</h3>
+            <p>Futur proche образуется при помощи глагола <strong>aller</strong> (идти) в настоящем времени + инфинитив основного глагола.</p>
+            <p><strong>Спряжение глагола aller (идти):</strong> je vais, tu vas, il va, nous allons, vous allez, ils vont.</p>
+            <p><strong>Пример:</strong> <em>Je vais manger.</em> (Я собираюсь поесть / Я буду есть). <em>Nous allons regarder un film.</em> (Мы собираемся посмотреть фильм).</p>
+            <p>Это время очень распространено в разговорной речи для выражения ближайших планов.</p>`,
+            flashcards: [
+                { front: "Я иду", back: "je vais" }, { front: "Я собираюсь говорить", back: "je vais parler" }, { front: "Ты собираешься смотреть", back: "tu vas regarder" },
+                { front: "Он собирается есть", back: "il va manger" }, { front: "Мы собираемся петь", back: "nous allons chanter" }, { front: "Вы собираетесь работать", back: "vous allez travailler" }
+            ]
+        },
+        13: {
+            title: "Passé composé с глаголом avoir",
+            theory: `<h3>🕰️ Прошедшее время (с avoir)</h3>
+            <p>Passé composé — это прошедшее законченное время. Образуется с помощью вспомогательного глагола avoir в настоящем времени + причастие прошедшего времени (participe passé) смыслового глагола.</p>
+            <p><strong>Образование participe passé:</strong> для глаголов I группы (на -er) — замена на -é (parler → parlé); II группы (на -ir) — замена на -i (finir → fini); III группы — нужно запоминать (prendre → pris).</p>
+            <p><strong>Пример:</strong> <em>J'ai parlé</em> (Я говорил / поговорил). <em>Tu as fini</em> (Ты закончил).</p>`,
+            flashcards: [
+                { front: "Я поговорил", back: "j'ai parlé" }, { front: "Ты закончил", back: "tu as fini" }, { front: "Он взял", back: "il a pris" },
+                { front: "Мы посмотрели", back: "nous avons regardé" }, { front: "Они сказали", back: "ils ont dit" }, { front: "Вы ответили", back: "vous avez répondu" }
+            ]
+        },
+        14: {
+            title: "Passé composé с глаголом être (глаголы движения)",
+            theory: `<h3>🚶 Глаголы, которые спрягаются с être</h3>
+            <p>Некоторые непереходные глаголы (в основном глаголы движения и изменения состояния) образуют passé composé с вспомогательным глаголом <strong>être</strong>.</p>
+            <p><strong>Список основных (акроним MRS. D. VANDERTRAMP):</strong> aller, venir, monter, descendre, entrer, sortir, partir, arriver, naître, mourir, tomber, rester, retourner, devenir.</p>
+            <p><strong>Важно:</strong> В этом случае причастие согласуется с подлежащим в роде и числе. Пример: <em>Elle est allée</em> (Она ушла), <em>Ils sont partis</em> (Они уехали).</p>`,
+            flashcards: [
+                { front: "Я пришёл (м.р.)", back: "je suis venu" }, { front: "Она ушла", back: "elle est partie" }, { front: "Мы остались", back: "nous sommes restés" },
+                { front: "Они родились", back: "ils sont nés" }, { front: "Ты упал", back: "tu es tombé" }, { front: "Они пошли", back: "ils sont allés" }
+            ]
+        },
+        15: {
+            title: "Imparfait (прошедшее незаконченное время)",
+            theory: `<h3>📖 Описание в прошлом</h3>
+            <p>Imparfait описывает действия в прошлом, которые не имеют чёткой границы завершения: привычные действия, описания, состояния, фоновые действия.</p>
+            <p><strong>Образование:</strong> основа глагола в 1-м лице множественного числа (nous) настоящего времени + окончания -ais, -ais, -ait, -ions, -iez, -aient.</p>
+            <p><strong>Пример с глаголом parler (nous parlons → parl-):</strong> je parlais, tu parlais, il parlait, nous parlions, vous parliez, ils parlaient.</p>
+            <p><strong>Исключение (être):</strong> j'étais, tu étais, il était, nous étions, vous étiez, ils étaient.</p>`,
+            flashcards: [
+                { front: "Я говорил (обычно)", back: "je parlais" }, { front: "Мы были", back: "nous étions" }, { front: "Он смотрел", back: "il regardait" },
+                { front: "Вы любили", back: "vous aimiez" }, { front: "Они делали", back: "ils faisaient" }, { front: "Было жарко", back: "il faisait chaud" }
+            ]
+        },
+        16: {
+            title: "Futur simple (простое будущее время)",
+            theory: `<h3>🔮 Я сделаю (в будущем)</h3>
+            <p>Futur simple выражает действие, которое произойдёт в будущем. Образуется прибавлением к инфинитиву окончаний: -ai, -as, -a, -ons, -ez, -ont.</p>
+            <p><strong>Пример с глаголом parler:</strong> je parlerai, tu parleras, il parlera, nous parlerons, vous parlerez, ils parleront.</p>
+            <p><strong>Исключения (неправильные основы):</strong> avoir → j'aurai, être → je serai, aller → j'irai, faire → je ferai, pouvoir → je pourrai, vouloir → je voudrai.</p>`,
+            flashcards: [
+                { front: "Я буду говорить", back: "je parlerai" }, { front: "Ты будешь иметь", back: "tu auras" }, { front: "Он будет", back: "il sera" },
+                { front: "Мы пойдём", back: "nous irons" }, { front: "Вы сделаете", back: "vous ferez" }, { front: "Они смогут", back: "ils pourront" }
+            ]
+        },
+        17: {
+            title: "Conditionnel présent (вежливая форма и желание)",
+            theory: `<h3>🎭 Я хотел бы, я бы сделал</h3>
+            <p>Conditionnel présent выражает действие, возможное при определённом условии, а также используется для вежливой просьбы или выражения желания.</p>
+            <p><strong>Образование:</strong> основа Futur simple + окончания Imparfait (-ais, -ais, -ait, -ions, -iez, -aient).</p>
+            <p><strong>Пример:</strong> je parlerais, tu parlerais, il parlerait, nous parlerions, vous parleriez, ils parleraient.</p>
+            <p><strong>Вежливая форма:</strong> <em>Je voudrais un café.</em> (Я хотел бы кофе). <em>Pourriez-vous m'aider?</em> (Не могли бы вы мне помочь?).</p>`,
+            flashcards: [
+                { front: "Я хотел бы", back: "je voudrais" }, { front: "Вы могли бы", back: "vous pourriez" }, { front: "Он сказал бы", back: "il dirait" },
+                { front: "Мы поехали бы", back: "nous irions" }, { front: "Ты сделал бы", back: "tu ferais" }, { front: "Они были бы", back: "ils seraient" }
+            ]
+        },
+        18: {
+            title: "Местоимения прямого дополнения (le, la, les)",
+            theory: `<h3>🎯 Его, её, их (прямой объект)</h3>
+            <p>Местоимения прямого дополнения заменяют одушевлённые и неодушевлённые существительные, отвечающие на вопрос «кого?» или «что?».</p>
+            <ul>
+                <li><strong>le (l')</strong> — его (м.р. ед.ч.)</li>
+                <li><strong>la (l')</strong> — её (ж.р. ед.ч.)</li>
+                <li><strong>les</strong> — их (мн.ч.)</li>
+            </ul>
+            <p><strong>Порядок слов:</strong> местоимение ставится перед глаголом. <em>Je lis le livre → Je le lis.</em> (Я читаю его). <em>Tu regardes la télé → Tu la regardes.</em></p>
+            <p>В отрицании: <em>Je ne le regarde pas.</em></p>`,
+            flashcards: [
+                { front: "Я его вижу", back: "je le vois" }, { front: "Ты её любишь", back: "tu l'aimes" }, { front: "Мы их знаем", back: "nous les connaissons" },
+                { front: "Он это делает", back: "il le fait" }, { front: "Вы её слушаете", back: "vous l'écoutez" }
+            ]
+        },
+        19: {
+            title: "Местоимения косвенного дополнения (lui, leur)",
+            theory: `<h3>🎁 Ему, ей, им (косвенный объект)</h3>
+            <p>Местоимения косвенного дополнения заменяют одушевлённые существительные, отвечающие на вопрос «кому?». <strong>lui</strong> (ему, ей) и <strong>leur</strong> (им).</p>
+            <p><strong>Пример:</strong> <em>Je parle à Paul → Je lui parle.</em> (Я говорю ему). <em>Je donne un livre aux enfants → Je leur donne un livre.</em></p>
+            <p><strong>Важно:</strong> В отличие от прямых дополнений, lui и leur не имеют рода.</p>`,
+            flashcards: [
+                { front: "Я ему говорю", back: "je lui parle" }, { front: "Ты ей даёшь", back: "tu lui donnes" }, { front: "Мы им пишем", back: "nous leur écrivons" },
+                { front: "Он ей отвечает", back: "il lui répond" }, { front: "Вы им звоните", back: "vous leur téléphonez" }
+            ]
+        },
+        20: {
+            title: "Местоимения en и y",
+            theory: `<h3>🔁 Замена места и количества</h3>
+            <p>Местоимение <strong>y</strong> заменяет обстоятельство места (там, туда) или дополнение с предлогом à (кроме одушевлённых).</p>
+            <p><strong>Пример:</strong> <em>Je vais à Paris → J'y vais.</em></p>
+            <p>Местоимение <strong>en</strong> заменяет дополнение с предлогом de (оттуда, из), а также часть неопределённого/частичного артикля (du, de la, des) в количественном значении.</p>
+            <p><strong>Пример:</strong> <em>Je bois du café → J'en bois.</em> <em>Je reviens de Moscou → J'en reviens.</em></p>`,
+            flashcards: [
+                { front: "Я туда еду", back: "j'y vais" }, { front: "Я там живу", back: "j'y habite" }, { front: "Я пью его (чай)", back: "j'en bois" },
+                { front: "Я оттуда приезжаю", back: "j'en reviens" }, { front: "Ты там работаешь", back: "tu y travailles" }, { front: "Мы об этом говорим", back: "nous en parlons" }
+            ]
+        },
+        // --- 21-30: Продолжение и углубление тем ---
+        21: {
+            title: "Возвратные глаголы (se laver, se lever)",
+            theory: `<h3>🪞 Я моюсь, я встаю</h3>
+            <p>Возвратные глаголы указывают на действие, направленное на самого себя. Они всегда употребляются с возвратным местоимением se (меня, себя).</p>
+            <p><strong>Спряжение в настоящем времени:</strong> je me lave, tu te laves, il se lave, nous nous lavons, vous vous lavez, ils se lavent.</p>
+            <p><strong>В passé composé</strong> возвратные глаголы спрягаются с глаголом <strong>être</strong>, и причастие согласуется с подлежащим: <em>Elle s'est levée</em> (Она встала).</p>`,
+            flashcards: [
+                { front: "Мыться (возвр.)", back: "se laver" }, { front: "Я встаю", back: "je me lève" }, { front: "Ты одеваешься", back: "tu t'habilles" },
+                { front: "Он просыпается", back: "il se réveille" }, { front: "Мы мылись", back: "nous nous sommes lavés" }, { front: "Она остановилась", back: "elle s'est arrêtée" }
+            ]
+        },
+        22: {
+            title: "Повелительное наклонение (Impératif)",
+            theory: `<h3>👑 Делай! Сделаем! Сделайте!</h3>
+            <p>Impératif используется для выражения приказа, просьбы, совета или приглашения. Он имеет три формы: tu, nous, vous.</p>
+            <p><strong>Образование:</strong> формы настоящего времени без местоимения-подлежащего. У глаголов I группы во 2-м лице единственного числа (tu) конечная 's' отбрасывается: <em>parle!</em> (говори!), но <em>vas-y!</em> (иди туда!) — исключение.</p>
+            <p><strong>Отрицательная форма:</strong> <em>Ne parle pas!</em> (Не говори!).</p>`,
+            flashcards: [
+                { front: "Говори!", back: "parle!" }, { front: "Слушайте!", back: "écoutez!" }, { front: "Пойдём!", back: "allons!" },
+                { front: "Не ешь!", back: "ne mange pas!" }, { front: "Сделайте это!", back: "faites-le!" }, { front: "Открой дверь!", back: "ouvre la porte!" }
+            ]
+        },
+        23: {
+            title: "Степени сравнения прилагательных (plus, moins, aussi)",
+            theory: `<h3>📈 Сравнительная степень: больше, меньше, такой же</h3>
+            <p>Сравнительная степень образуется с помощью наречий <strong>plus</strong> (более), <strong>moins</strong> (менее), <strong>aussi</strong> (так же) и союза <strong>que</strong> (чем).</p>
+            <p><strong>Примеры:</strong> <em>Marie est plus grande que Luc.</em> (Мари выше Люка). <em>Ce livre est moins intéressant.</em> (Эта книга менее интересна). <em>Il est aussi intelligent que son frère.</em> (Он такой же умный, как его брат).</p>
+            <p><strong>Исключения:</strong> bon → meilleur (лучше), bien → mieux (лучше), mauvais → pire / plus mauvais (хуже).</p>`,
+            flashcards: [
+                { front: "Более высокий", back: "plus grand" }, { front: "Менее дорогой", back: "moins cher" }, { front: "Такой же красивый", back: "aussi beau" },
+                { front: "Лучше (прилагательное)", back: "meilleur" }, { front: "Лучше (наречие)", back: "mieux" }, { front: "Хуже", back: "pire" }
+            ]
+        },
+        24: {
+            title: "Превосходная степень прилагательных (le plus, le moins)",
+            theory: `<h3>🏆 Самый, наиболее, наименее</h3>
+            <p>Превосходная степень (суперлатив) образуется добавлением определённого артикля перед сравнительной степенью: <strong>le/la/les plus</strong> (самый) или <strong>le/la/les moins</strong> (наименее).</p>
+            <p><strong>Примеры:</strong> <em>C'est le plus grand musée.</em> (Это самый большой музей). <em>Ce sont les moins chers.</em> (Они самые дешёвые).</p>
+            <p>Артикль согласуется в роде и числе с существительным, к которому относится прилагательное.</p>`,
+            flashcards: [
+                { front: "Самый большой", back: "le plus grand" }, { front: "Самая красивая", back: "la plus belle" }, { front: "Самые дорогие", back: "les plus chers" },
+                { front: "Наименее интересный", back: "le moins intéressant" }, { front: "Лучший", back: "le meilleur" }, { front: "Худший", back: "le pire" }
+            ]
+        },
+        25: {
+            title: "Наречия (образование и степени сравнения)",
+            theory: `<h3>💨 Быстро, медленно, хорошо</h3>
+            <p>Наречия во французском языке часто образуются от женского рода прилагательного + суффикс -ment: <em>lent (медленный) → lente → lentement</em> (медленно).</p>
+            <p><strong>Исключения:</strong> <em>bon → bien</em> (хорошо), <em>mauvais → mal</em> (плохо), <em>meilleur → mieux</em> (лучше).</p>
+            <p><strong>Степени сравнения наречий:</strong> plus... que (более... чем), moins... que (менее... чем), aussi... que (так же... как).</p>`,
+            flashcards: [
+                { front: "Быстро", back: "vite" }, { front: "Медленно", back: "lentement" }, { front: "Хорошо", back: "bien" },
+                { front: "Плохо", back: "mal" }, { front: "Лучше (наречие)", back: "mieux" }, { front: "Легко", back: "facilement" }
+            ]
+        },
+        26: {
+            title: "Субъективное и объективное употребление времен",
+            theory: `<h3>⏲️ Согласование времен в косвенной речи</h3>
+            <p>При переводе прямой речи в косвенную (если глагол главного предложения стоит в прошедшем времени) происходит сдвиг времён.</p>
+            <ul>
+                <li>Présent → Imparfait (Il dit: «Je viens.» → Il a dit qu'il venait.)</li>
+                <li>Passé composé → Plus-que-parfait (Il a dit: «Je suis allé.» → Il a dit qu'il était allé.)</li>
+                <li>Imparfait → Imparfait (сохраняется)</li>
+                <li>Futur simple → Futur dans le passé (Conditionnel présent) (Il a dit: «Je viendrai.» → Il a dit qu'il viendrait.)</li>
+            </ul>`,
+            flashcards: [
+                { front: "Он сказал, что придёт", back: "il a dit qu'il viendrait" }, { front: "Она сказала, что идёт", back: "elle a dit qu'elle venait" },
+                { front: "Я думал, что он ушёл", back: "je pensais qu'il était parti" }, { front: "Мы знали, что они сделают это", back: "nous savions qu'ils le feraient" }
+            ]
+        },
+        27: {
+            title: "Субжонктив (Subjonctif). Выражение желания и эмоций",
+            theory: `<h3>😌 Сослагательное наклонение: чтобы я сделал, важно, чтобы...</h3>
+            <p>Subjonctif используется после безличных оборотов и глаголов, выражающих желание, эмоции, сомнение, необходимость. Субъект придаточного предложения должен отличаться от субъекта главного.</p>
+            <p><strong>Образование для глаголов I, II групп:</strong> основа 3-го лица мн.ч. (ils) настоящего времени + окончания: -e, -es, -e, -ions, -iez, -ent.</p>
+            <p><strong>Пример (parler → ils parlent → que je parle):</strong> <em>Il faut que je parte.</em> (Нужно, чтобы я ушёл). <em>Je veux que vous veniez.</em> (Я хочу, чтобы вы пришли).</p>`,
+            flashcards: [
+                { front: "Нужно, чтобы я говорил", back: "il faut que je parle" }, { front: "Я хочу, чтобы вы пришли", back: "je veux que vous veniez" },
+                { front: "Важно, чтобы он был здесь", back: "il est important qu'il soit ici" }, { front: "Я сомневаюсь, что она сделает это", back: "je doute qu'elle le fasse" }
+            ]
+        },
+        28: {
+            title: "Лексика: путешествия и транспорт",
+            theory: `<h3>✈️ В поездку с французским</h3>
+            <p><strong>Вокзал, аэропорт, билет, багаж:</strong> gare (ж.р.), aéroport (м.р.), billet (м.р.), bagage (м.р.).</p>
+            <p><strong>Виды транспорта:</strong> voiture (ж.р. — автомобиль), train (м.р.), avion (м.р.), bateau (м.р.), métro (м.р.).</p>
+            <p><strong>Полезные фразы:</strong> <em>Je voudrais un billet pour Paris.</em> (Мне нужен билет до Парижа). <em>Où est la gare, s'il vous plaît?</em> (Где вокзал?). <em>À quelle heure part le train?</em> (Во сколько отправляется поезд?).</p>`,
+            flashcards: [
+                { front: "Поезд", back: "le train" }, { front: "Аэропорт", back: "l'aéroport" }, { front: "Билет", back: "le billet" },
+                { front: "Багаж", back: "les bagages" }, { front: "Метро", back: "le métro" }, { front: "Во сколько...?", back: "à quelle heure...?" }
+            ]
+        },
+        29: {
+            title: "Лексика: здоровье и визит к врачу",
+            theory: `<h3>🩺 У врача: описываем симптомы</h3>
+            <p><strong>Части тела:</strong> tête (ж.р.), bras (м.р.), jambe (ж.р.), main (ж.р.), pied (м.р.).</p>
+            <p><strong>Болезни и симптомы:</strong> mal à la tête (головная боль), fièvre (ж.р. — жар), rhume (м.р. — насморк), toux (ж.р. — кашель).</p>
+            <p><strong>Фразы:</strong> <em>Je ne me sens pas bien.</em> (Я плохо себя чувствую). <em>J'ai mal à la gorge.</em> (У меня болит горло). <em>Appelez un médecin!</em> (Вызовите врача!).</p>`,
+            flashcards: [
+                { front: "Голова", back: "la tête" }, { front: "Глаз", back: "l'œil (les yeux)" }, { front: "У меня болит", back: "j'ai mal à" },
+                { front: "Жар", back: "la fièvre" }, { front: "Врач", back: "le médecin" }, { front: "Вызовите скорую!", back: "appelez une ambulance!" }
+            ]
+        },
+        30: {
+            title: "Лексика: еда и ресторан",
+            theory: `<h3>🍽️ Заказываем обед по-французски</h3>
+            <p><strong>Завтрак, обед, ужин:</strong> petit-déjeuner (м.р.), déjeuner (м.р.), dîner (м.р.).</p>
+            <p><strong>Типичные блюда:</strong> quiche (ж.р.), ratatouille (ж.р.), croissant (м.р.), fromage (м.р.), escargots (м.р. мн.ч.).</p>
+            <p><strong>В ресторане:</strong> <em>La carte, s'il vous plaît.</em> (Меню, пожалуйста). <em>Qu'est-ce que vous recommandez?</em> (Что вы посоветуете?). <em>L'addition, s'il vous plaît.</em> (Счёт, пожалуйста).</p>`,
+            flashcards: [
+                { front: "Завтрак", back: "le petit-déjeuner" }, { front: "Ужин", back: "le dîner" }, { front: "Меню", back: "la carte" },
+                { front: "Счёт", back: "l'addition" }, { front: "Сыр", back: "le fromage" }, { front: "Хлеб", back: "le pain" }
+            ]
         }
-        // Тест (2 вопроса)
-        let test = [];
-        if(lessonNum === 1) test = [{question:"Сколько букв во французском алфавите?", options:["25","26","27"], correct:1},
-                                    {question:"Как произносится буква 'R'?", options:["Как русская Р", "Гортанно", "Как английская R"], correct:1}];
-        else if(lessonNum === 2) test = [{question:"Как сказать 'Здравствуйте'?", options:["Salut","Bonjour","Merci"], correct:1},
-                                         {question:"'Спасибо' по-французски?", options:["De rien","Merci","Au revoir"], correct:1}];
-        else if(lessonNum === 3) test = [{question:"'Мы есть' — это...", options:["Nous sommes","Vous êtes","Ils sont"], correct:0},
-                                         {question:"Выбери местоимение 'ты'", options:["Je","Tu","Il"], correct:1}];
-        else if(lessonNum === 4) test = [{question:"J'ai — это...", options:["Я имею","Ты имеешь","Он имеет"], correct:0},
-                                         {question:"Она имеет 20 лет", options:["Elle a 20 ans","Elle est 20 ans","Il a 20 ans"], correct:0}];
-        else if(lessonNum === 5) test = [{question:"'Семь' по-французски", options:["six","sept","huit"], correct:1},
-                                         {question:"'Четыре' — это...", options:["cinq","quatre","trois"], correct:1}];
-        else test = [{question:`Что означает основное слово урока ${lessonNum}?`, options:["Вариант A","Вариант B","Вариант C"], correct:0},
-                     {question:"Выберите правильный перевод для 'Привет'", options:["Bonjour","Salut","Bonsoir"], correct:1}];
-        return { theory, flashcards, test };
-    }
+    };
 
-    // Хранилище уроков
-    const lessons = {};
-    for(let i=1; i<=30; i++) {
-        lessons[i] = generateLesson(i);
-    }
+    // --------------------------------------------------------------
+    // ИТОГОВЫЙ ЭКЗАМЕН (30 ВОПРОСОВ)
+    // --------------------------------------------------------------
+    const finalExam = [
+        { question: "Как переводится 'Спасибо'?", options: ["Merci", "Bonjour", "Au revoir"], correct: 0 },
+        { question: "Выберите правильную форму глагола 'être' для 'Я':", options: ["Je suis", "Tu es", "Il est"], correct: 0 },
+        { question: "Какой артикль нужно использовать для неисчисляемого существительного (например, хлеб)?", options: ["le", "un", "du"], correct: 2 },
+        { question: "Как образуется отрицание во французском языке?", options: ["ne + глагол + pas", "глагол + pas", "ne + глагол"], correct: 0 },
+        { question: "Выберите правильный порядок слов в вопросе с инверсией для 'Tu parles français?':", options: ["Parles-tu français?", "Tu parles français?", "Est-ce que tu parles?"], correct: 0 },
+        { question: "Как сказать 'моя подруга'?", options: ["mon amie", "ma amie", "ma amie"], correct: 0 },
+        { question: "Как образуется ближайшее будущее время (Futur proche)?", options: ["aller + инфинитив", "avoir + инфинитив", "être + инфинитив"], correct: 0 },
+        { question: "Какой вспомогательный глагол используется с глаголами движения в Passé composé?", options: ["avoir", "être", "faire"], correct: 1 },
+        { question: "Выберите правильное местоимение прямого дополнения (его, её):", options: ["le, la", "lui, leur", "y, en"], correct: 0 },
+        { question: "Как сказать 'Я хотел бы кофе' вежливой форме?", options: ["Je veux un café", "Je voudrais un café", "Je prends un café"], correct: 1 },
+        { question: "Как переводится 'понедельник'?", options: ["lundi", "mardi", "mercredi"], correct: 0 },
+        { question: "Выберите правильный перевод 'Мы смотрим телевизор':", options: ["Nous regardons la télé", "Nous regardez la télé", "Nous regardons la télévision"], correct: 0 },
+        { question: "Как сказать 'У меня есть сестра'?", options: ["J'ai une sœur", "Je suis une sœur", "Il y a une sœur"], correct: 0 },
+        { question: "Какой артикль нужно использовать для фразы 'Это книга' (в значении 'какая-то книга')?", options: ["C'est le livre", "C'est un livre", "C'est livre"], correct: 1 },
+        { question: "Как переводится 'жёлтый' цвет?", options: ["jaune", "bleu", "rouge"], correct: 0 },
+        { question: "Выберите правильную форму глагола 'finir' для 'Они заканчивают':", options: ["ils finissent", "ils finissent", "ils finissons"], correct: 0 },
+        { question: "Как сказать 'Мы пойдём в кино' в будущем времени (Futur simple)?", options: ["Nous allons au cinéma", "Nous irons au cinéma", "Nous allons aller au cinéma"], correct: 1 },
+        { question: "Какое местоимение заменяет обстоятельство места (там)?", options: ["y", "en", "lui"], correct: 0 },
+        { question: "Как переводится 'быстро'?", options: ["vite", "lentement", "bien"], correct: 0 },
+        { question: "Как сказать 'Закройте окно!' в повелительном наклонении?", options: ["Fermez la fenêtre!", "Ferme la fenêtre!", "Fermons la fenêtre!"], correct: 0 },
+        { question: "Какой предлог используется с глаголом 'parler' в значении 'говорить о чём-то'?", options: ["de", "à", "pour"], correct: 0 },
+        { question: "Как переводится 'потому что'?", options: ["parce que", "pour que", "afin que"], correct: 0 },
+        { question: "Выберите правильный перевод 'Она самая красивая':", options: ["Elle est la plus belle", "Elle est plus belle", "Elle est la plus beau"], correct: 0 },
+        { question: "Как сказать 'Мы рады, что вы пришли' с использованием Subjonctif?", options: ["Nous sommes contents que vous veniez", "Nous sommes contents que vous venez", "Nous sommes contents vous venez"], correct: 0 },
+        { question: "Как переводится 'врач'?", options: ["le médecin", "l'infirmier", "l'hôpital"], correct: 0 },
+        { question: "Как сказать 'Я хочу есть'?", options: ["J'ai faim", "J'ai soif", "J'ai chaud"], correct: 0 },
+        { question: "Какой глагол означает 'понимать' в настоящем времени для 'Я понимаю'?", options: ["Je comprends", "Je comprends", "Je comprenne"], correct: 0 },
+        { question: "Как сказать 'Сегодня 14 июля'?", options: ["Nous sommes le quatorze juillet", "C'est quatorze juillet", "Il fait le quatorze juillet"], correct: 0 },
+        { question: "Выберите правильный перевод 'Мы можем войти?' (с использованием 'pouvoir'):", options: ["Nous pouvons entrer?", "Pouvons-nous entrer?", "On peut entrer?"], correct: 1 },
+        { question: "Как сказать 'Какая красивая девушка!' с использованием восклицания?", options: ["Quelle belle fille!", "Quel belle fille!", "Quelle beau fille!"], correct: 0 }
+    ];
 
     let currentLesson = 1;
-    let activeFlashcards = null;
+    let examAnswers = new Array(30).fill(null);
 
-    // отрисовка выбранного урока
+    // Отображение урока
     function renderLesson(lessonId) {
-        const lesson = lessons[lessonId];
+        const lesson = lessonsData[lessonId];
         if(!lesson) return;
         currentLesson = lessonId;
         const container = document.getElementById("lessonContent");
-        // Строим карточки
         let flashcardsHtml = '<div class="flashcards" id="flashcardContainer">';
-        lesson.flashcards.forEach((card, idx) => {
+        lesson.flashcards.forEach(card => {
             flashcardsHtml += `
-                <div class="flashcard" data-idx="${idx}">
+                <div class="flashcard">
                     <div class="front">${card.front}</div>
                     <div class="back">${card.back}</div>
                 </div>
             `;
         });
         flashcardsHtml += '</div>';
-        // Строим тест
-        let testHtml = `<div class="test-area"><h3>📝 Мини-тест</h3>`;
-        lesson.test.forEach((q, qidx) => {
-            testHtml += `
-                <div class="question" data-qidx="${qidx}">
-                    <p><strong>${q.question}</strong></p>
-                    <div class="options">
-            `;
-            q.options.forEach((opt, oidx) => {
-                testHtml += `<button class="opt-btn" data-qidx="${qidx}" data-optidx="${oidx}">${opt}</button>`;
-            });
-            testHtml += `</div><div class="result" id="res-${qidx}"></div></div>`;
-        });
-        testHtml += `<button class="btn" id="resetTest" style="margin-top:1rem;">⟳ Сбросить тест</button></div>`;
 
         const fullHtml = `
             <div id="activeLesson">
-                <h2 style="color:#b45f2b;">Урок ${lessonId}: ${themes[lessonId-1]}</h2>
+                <h2 style="color:#b45f2b;">Урок ${lessonId}: ${lesson.title}</h2>
                 <div class="theory-block">${lesson.theory}</div>
                 <h3>📇 Карточки для запоминания (нажми для переворота)</h3>
                 ${flashcardsHtml}
-                ${testHtml}
             </div>
         `;
         container.innerHTML = fullHtml;
@@ -384,50 +785,61 @@
             });
         });
 
-        // Тест: обработка
-        const btns = document.querySelectorAll('.opt-btn');
-        btns.forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                const qidx = parseInt(this.getAttribute('data-qidx'));
-                const optidx = parseInt(this.getAttribute('data-optidx'));
-                const correctIdx = lessons[lessonId].test[qidx].correct;
-                const resultDiv = document.getElementById(`res-${qidx}`);
-                if(optidx === correctIdx) {
-                    resultDiv.innerHTML = '✅ Верно!';
-                    resultDiv.style.color = '#2e7d32';
-                    // Подсветка кнопок
-                    const parentDiv = this.closest('.question');
-                    const allOpts = parentDiv.querySelectorAll('.opt-btn');
-                    allOpts.forEach(opt => {
-                        opt.classList.remove('correct', 'wrong');
-                        const idxAttr = parseInt(opt.getAttribute('data-optidx'));
-                        if(idxAttr === correctIdx) opt.classList.add('correct');
-                        else opt.classList.add('wrong');
-                    });
-                } else {
-                    resultDiv.innerHTML = '❌ Неправильно. Попробуйте ещё раз.';
-                    resultDiv.style.color = '#c62828';
-                    this.classList.add('wrong');
-                    setTimeout(() => this.classList.remove('wrong'), 400);
-                }
-            });
-        });
-        // Сброс теста
-        const resetBtn = document.getElementById('resetTest');
-        if(resetBtn) {
-            resetBtn.addEventListener('click', () => {
-                document.querySelectorAll('.result').forEach(r => r.innerHTML = '');
-                document.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('correct', 'wrong'));
-            });
-        }
         // Обновить активную кнопку в боковом меню
         document.querySelectorAll('.lesson-btn').forEach(btn => {
             btn.classList.remove('active');
             if(parseInt(btn.getAttribute('data-lesson')) === lessonId) btn.classList.add('active');
         });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // Создание списка уроков в боковой панели
+    // Отображение экзамена
+    function renderExam() {
+        let examHtml = `<div class="exam-area"><h2 style="color:#b45f2b;">📝 Итоговый экзамен</h2><p>Проверьте свои знания, ответив на 30 вопросов. После ответа на все вопросы нажмите «Проверить результаты».</p>`;
+        finalExam.forEach((q, index) => {
+            examHtml += `
+                <div class="exam-question" data-qidx="${index}">
+                    <p><strong>${index+1}. ${q.question}</strong></p>
+                    <div class="exam-options">
+            `;
+            q.options.forEach((opt, optIdx) => {
+                const isSelected = (examAnswers[index] === optIdx);
+                examHtml += `<button class="exam-opt-btn ${isSelected ? 'selected' : ''}" data-qidx="${index}" data-optidx="${optIdx}">${opt}</button>`;
+            });
+            examHtml += `</div></div>`;
+        });
+        examHtml += `<div class="exam-result"><button class="btn" id="submitExam">Проверить результаты</button><div id="examScore" style="margin-top: 1rem; font-weight: bold;"></div></div></div>`;
+        document.getElementById("lessonContent").innerHTML = examHtml;
+
+        // Обработчики для кнопок экзамена
+        document.querySelectorAll('.exam-opt-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const qidx = parseInt(btn.getAttribute('data-qidx'));
+                const optidx = parseInt(btn.getAttribute('data-optidx'));
+                examAnswers[qidx] = optidx;
+                // Обновить визуальное состояние
+                const parentDiv = btn.closest('.exam-question');
+                parentDiv.querySelectorAll('.exam-opt-btn').forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+            });
+        });
+
+        document.getElementById('submitExam').addEventListener('click', () => {
+            let correctCount = 0;
+            finalExam.forEach((q, idx) => {
+                if(examAnswers[idx] === q.correct) correctCount++;
+            });
+            const scorePercent = (correctCount / 30) * 100;
+            let message = `Вы ответили правильно на ${correctCount} из 30 вопросов (${Math.round(scorePercent)}%). `;
+            if(scorePercent >= 80) message += "Отличный результат! Вы готовы к покорению французского! 🇫🇷🎉";
+            else if(scorePercent >= 60) message += "Хороший результат! Повторите темы, в которых были ошибки. 💪";
+            else message += "Рекомендуем повторить материал уроков и пройти экзамен ещё раз. Удачи! 📚";
+            document.getElementById('examScore').innerHTML = message;
+        });
+        document.querySelectorAll('.lesson-btn').forEach(btn => btn.classList.remove('active'));
+    }
+
+    // Построение боковой панели
     function buildSidebar() {
         const listContainer = document.getElementById('lessonList');
         listContainer.innerHTML = '';
@@ -440,11 +852,14 @@
             listContainer.appendChild(btn);
         }
     }
-    buildSidebar();
-    // Кнопка "Начать с урока 1"
+
+    // Обработчики кнопок
     document.getElementById('startFirstLesson').addEventListener('click', () => renderLesson(1));
-    // По умолчанию показываем первый урок при загрузке (опционально)
+    document.getElementById('takeExamBtn').addEventListener('click', renderExam);
+
+    buildSidebar();
     renderLesson(1);
 </script>
 </body>
 </html>
+```
