@@ -11,7 +11,7 @@
             box-sizing: border-box;
         }
         body {
-            font-family: 'Segoe UI', 'Roboto', system-ui, sans-serif;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             background: #f5f7fb;
             color: #1e293b;
             padding: 20px;
@@ -20,7 +20,6 @@
             max-width: 1300px;
             margin: 0 auto;
         }
-        /* Шапка */
         .header {
             background: white;
             border-radius: 30px;
@@ -68,7 +67,6 @@
             background: #e2e8f0;
             transform: translateY(-2px);
         }
-        /* Сетка карточек */
         .news-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
@@ -148,7 +146,6 @@
             background: #2563eb;
             color: white;
         }
-        /* Загрузка и ошибки */
         .loader {
             text-align: center;
             padding: 50px;
@@ -209,84 +206,38 @@
     </div>
 
     <div id="newsContainer" class="news-grid">
-        <div class="loader"><div class="spinner"></div>Загрузка свежих новостей...</div>
+        <div class="loader"><div class="spinner"></div>Загрузка новостей...</div>
     </div>
     <div class="footer">
-        🧠 Новости собираются автоматически из открытых русскоязычных источников. Данные обновляются при каждом посещении.
+        🧠 База новостей редактируется в файле news.json. Добавляйте свои публикации!<br>
+        Данные обновляются при каждом заходе на сайт.
     </div>
 </div>
 
 <script>
-    // Список RSS-источников (название, URL через rss2json, категория)
-    // Используем бесплатный сервис rss2json.com (без ключа, но есть лимит 100 запросов/день — нам хватит)
-    // Для стабильности я добавил несколько источников, которые обычно отдают русский контент.
-    const sources = [
-        { name: "ПостНаука (Лингвистика)", url: "https://api.rss2json.com/v1/api.json?rss_url=https://postnauka.ru/feed", category: "linguistics", filter: (item) => item.categories?.some(cat => cat.toLowerCase().includes("лингвистик") || cat.toLowerCase().includes("язык")) },
-        { name: "Arzamas", url: "https://api.rss2json.com/v1/api.json?rss_url=https://arzamas.academy/feed", category: "literature", filter: null },
-        { name: "Горький", url: "https://api.rss2json.com/v1/api.json?rss_url=https://gorky.media/feed/", category: "literature", filter: null },
-        { name: "Троицкий вариант", url: "https://api.rss2json.com/v1/api.json?rss_url=https://trv-science.ru/feed/", category: "linguistics", filter: null },
-        { name: "Элементы (Наука)", url: "https://api.rss2json.com/v1/api.json?rss_url=https://elementy.ru/rss/news", category: "linguistics", filter: (item) => item.title.toLowerCase().includes("язык") || item.description.toLowerCase().includes("лингвистик") },
-        { name: "ВШЭ Лингвистика", url: "https://api.rss2json.com/v1/api.json?rss_url=https://ling.hse.ru/news/news_rss.xml", category: "education", filter: null }
-    ];
-
     let allArticles = [];
     let currentFilter = "all";
 
-    // Функция загрузки одного источника
-    async function fetchSource(source) {
-        try {
-            const response = await fetch(source.url);
-            if (!response.ok) throw new Error(`HTTP ${response.status}`);
-            const data = await response.json();
-            if (!data.items || data.items.length === 0) return [];
-            
-            // Преобразуем каждый элемент в универсальный формат
-            let articles = data.items.map(item => {
-                // Извлекаем описание (убираем HTML теги)
-                let description = item.description || item.content || "";
-                description = description.replace(/<[^>]*>/g, '').substring(0, 250);
-                // Дата публикации
-                let pubDate = item.pubDate ? new Date(item.pubDate) : new Date();
-                // Категория из источника, если есть фильтр по контенту
-                let articleCategory = source.category;
-                if (source.filter && !source.filter(item)) {
-                    // если фильтр не пройден, пропускаем статью (возвращаем null)
-                    return null;
-                }
-                return {
-                    title: item.title || "Без названия",
-                    link: item.link || "#",
-                    description: description,
-                    pubDate: pubDate,
-                    sourceName: source.name,
-                    category: articleCategory,
-                    guid: item.guid || item.link
-                };
-            }).filter(art => art !== null);
-            
-            return articles;
-        } catch (error) {
-            console.warn(`Ошибка загрузки источника ${source.name}:`, error);
-            return [];
-        }
-    }
-
-    // Загрузка всех источников параллельно
-    async function loadAllNews() {
+    async function loadNews() {
         const container = document.getElementById('newsContainer');
         container.innerHTML = '<div class="loader"><div class="spinner"></div>Загрузка новостей...</div>';
         
-        const promises = sources.map(source => fetchSource(source));
-        const results = await Promise.all(promises);
-        allArticles = results.flat();
-        
-        // Сортировка по дате (новые сверху)
-        allArticles.sort((a, b) => b.pubDate - a.pubDate);
-        
-        renderNews();
+        try {
+            const response = await fetch('news.json');
+            if (!response.ok) throw new Error('Не удалось загрузить news.json');
+            const data = await response.json();
+            // ожидаем массив новостей
+            if (!Array.isArray(data)) throw new Error('Некорректный формат JSON, ожидается массив');
+            allArticles = data;
+            // сортировка по дате (новые сверху)
+            allArticles.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+            renderNews();
+        } catch (error) {
+            console.error(error);
+            container.innerHTML = `<div class="error-message">❌ Ошибка загрузки новостей: ${error.message}. Убедитесь, что файл news.json существует в корне сайта и имеет правильный формат.</div>`;
+        }
     }
 
-    // Рендер карточек с учетом фильтра
     function renderNews() {
         const container = document.getElementById('newsContainer');
         let filtered = allArticles;
@@ -295,13 +246,12 @@
         }
         
         if (filtered.length === 0) {
-            container.innerHTML = '<div class="error-message">😕 Новостей по выбранной теме пока нет. Попробуйте другой фильтр или зайдите позже.</div>';
+            container.innerHTML = '<div class="error-message">😕 Новостей по выбранной теме пока нет. Попробуйте другой фильтр или добавьте новости в файл news.json.</div>';
             return;
         }
         
         const html = filtered.map(article => {
-            // Форматируем дату
-            const dateStr = article.pubDate.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+            const dateStr = new Date(article.pubDate).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
             let categoryLabel = "";
             switch (article.category) {
                 case 'linguistics': categoryLabel = "🗣 Лингвистика"; break;
@@ -314,10 +264,10 @@
                     <div class="card-content">
                         <div class="card-category">${categoryLabel}</div>
                         <div class="card-title"><a href="${article.link}" target="_blank" rel="noopener noreferrer">${escapeHtml(article.title)}</a></div>
-                        <div class="card-description">${escapeHtml(article.description)}...</div>
+                        <div class="card-description">${escapeHtml(article.description)}</div>
                         <div class="card-meta">
                             <span>📅 ${dateStr}</span>
-                            <span>📌 ${article.sourceName}</span>
+                            <span>📌 ${escapeHtml(article.source)}</span>
                             <a href="${article.link}" class="read-more" target="_blank">Читать →</a>
                         </div>
                     </div>
@@ -328,19 +278,16 @@
         container.innerHTML = html;
     }
     
-    // Простая защита от XSS
     function escapeHtml(str) {
+        if (!str) return '';
         return str.replace(/[&<>]/g, function(m) {
             if (m === '&') return '&amp;';
             if (m === '<') return '&lt;';
             if (m === '>') return '&gt;';
             return m;
-        }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
-            return c;
         });
     }
 
-    // Обработчики фильтров и сохранение выбранного
     function initFilters() {
         const buttons = document.querySelectorAll('.filter-btn');
         buttons.forEach(btn => {
@@ -363,8 +310,7 @@
         }
     }
 
-    // Запуск
-    loadAllNews();
+    loadNews();
     initFilters();
 </script>
 </body>
