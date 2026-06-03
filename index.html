@@ -2,8 +2,8 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LinguoAI — AI-филолог</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>LinguoAI — интеллектуальный филолог</title>
     <style>
         * {
             margin: 0;
@@ -11,134 +11,346 @@
             box-sizing: border-box;
         }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             min-height: 100vh;
             padding: 20px;
+            color: #f0f0f0;
         }
-        .container {
-            max-width: 1000px;
+        .glass-panel {
+            max-width: 1300px;
             margin: 0 auto;
-            background: white;
-            border-radius: 24px;
-            padding: 30px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(12px);
+            border-radius: 2rem;
+            border: 1px solid rgba(255,255,255,0.15);
+            overflow: hidden;
+            padding: 1.8rem;
+            box-shadow: 0 25px 45px rgba(0,0,0,0.3);
         }
-        h1 {
-            font-size: 2.5em;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .logo h1 {
+            font-size: 2rem;
+            background: linear-gradient(120deg, #FFF, #A78BFA);
             -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-align: center;
-            margin-bottom: 10px;
+            background-clip: text;
+            color: transparent;
         }
-        .subtitle {
-            color: #666;
-            text-align: center;
-            margin-bottom: 30px;
+        .logo p {
+            color: #a0a0b0;
+            font-size: 0.85rem;
+            margin-top: 5px;
         }
-        .card {
-            background: #f8f9fa;
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 20px;
-            border: 1px solid #e0e0e0;
+        .two-columns {
+            display: flex;
+            gap: 1.8rem;
+            flex-wrap: wrap;
         }
-        .btn {
-            display: inline-block;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+        .left-panel {
+            flex: 1.2;
+            min-width: 260px;
+        }
+        .right-panel {
+            flex: 2.5;
+            min-width: 300px;
+        }
+        .mode-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 1.5rem;
+            padding: 1.3rem;
+            margin-bottom: 1.8rem;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .mode-title {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+        .mode-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.7rem;
+        }
+        .mode-btn {
+            background: rgba(255,255,255,0.08);
+            border: none;
+            padding: 0.6rem 1rem;
+            border-radius: 2rem;
+            color: #e0e0e0;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: 0.2s;
+        }
+        .mode-btn.active,
+        .mode-btn:hover {
+            background: #8B5CF6;
             color: white;
-            text-decoration: none;
-            padding: 12px 24px;
-            border-radius: 30px;
-            margin-top: 15px;
+            box-shadow: 0 4px 12px rgba(139,92,246,0.4);
+            transform: translateY(-1px);
+        }
+        .input-area {
+            background: rgba(255,255,255,0.05);
+            border-radius: 1.5rem;
+            padding: 1.3rem;
+        }
+        textarea {
+            width: 100%;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 1rem;
+            padding: 1rem;
+            color: #fff;
+            font-size: 1rem;
+            resize: vertical;
+            font-family: inherit;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: #8B5CF6;
+        }
+        .send-btn {
+            background: #8B5CF6;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 2rem;
+            color: white;
             font-weight: bold;
+            cursor: pointer;
+            margin-top: 1rem;
+            width: 100%;
+            font-size: 1rem;
+            transition: background 0.2s;
+        }
+        .send-btn:hover {
+            background: #7C3AED;
+        }
+        .send-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .chat-window {
+            background: rgba(0,0,0,0.3);
+            border-radius: 1.5rem;
+            padding: 1.3rem;
+            height: 550px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .message {
+            display: flex;
+            gap: 0.8rem;
+            animation: fadeInUp 0.3s ease;
+        }
+        .message.user {
+            justify-content: flex-end;
+        }
+        .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #8B5CF6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+        .bubble {
+            max-width: 80%;
+            padding: 0.8rem 1.2rem;
+            border-radius: 1.5rem;
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(4px);
+            word-wrap: break-word;
+            line-height: 1.4;
+        }
+        .user .bubble {
+            background: rgba(139,92,246,0.3);
+            border: 1px solid #8B5CF6;
+        }
+        .typing {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+            padding: 0.8rem 1.2rem;
+        }
+        .typing span {
+            width: 8px;
+            height: 8px;
+            background: #a0a0b0;
+            border-radius: 50%;
+            animation: pulse 1.2s infinite;
+        }
+        .typing span:nth-child(2) { animation-delay: 0.2s; }
+        .typing span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes pulse {
+            0%, 60%, 100% { opacity: 0.4; transform: scale(0.8); }
+            30% { opacity: 1; transform: scale(1.2); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(8px);}
+            to { opacity: 1; transform: translateY(0);}
         }
         .footer {
             text-align: center;
-            margin-top: 30px;
-            color: #999;
-            font-size: 12px;
+            margin-top: 1.8rem;
+            font-size: 0.75rem;
+            color: #a0a0b0;
         }
-        .info {
-            background: #e8f4fd;
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            font-size: 14px;
-        }
-        .link-list {
-            list-style: none;
-            margin: 15px 0;
-        }
-        .link-list li {
-            margin: 10px 0;
-        }
-        .link-list a {
-            color: #667eea;
-            text-decoration: none;
-        }
-        .link-list a:hover {
-            text-decoration: underline;
+        @media (max-width: 768px) {
+            .glass-panel { padding: 1rem; }
+            .two-columns { flex-direction: column; }
+            .chat-window { height: 420px; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>📚 LinguoAI</h1>
-        <div class="subtitle">Понимает текст. Усиливает смысл.</div>
-        
-        <div class="info">
-            <strong>💡 LinguoAI — ваш AI-помощник для работы с текстами!</strong><br>
-            Выберите один из бесплатных AI-сервисов ниже, вставьте свой текст и получите его анализ, редактирование или генерацию.
-        </div>
-        
-        <div class="card">
-            <h3>🦆 DuckDuckGo AI Chat</h3>
-            <p>Популярный и простой сервис с несколькими моделями. Очень хорош для начала.</p>
-            <ul class="link-list">
-                <li>✓ <strong>Модели:</strong> GPT-4o-mini, Llama, Claude (отлично понимают русский язык)</li>
-                <li>✓ <strong>Плюсы:</strong> Бесплатно, без регистрации, анонимно</li>
-                <li>✓ <strong>Как пользоваться:</strong> Выберите модель GPT-4o-mini или Llama для работы на русском языке</li>
-            </ul>
-            <a href="https://duckduckgo.com/?ia=chat" target="_blank" class="btn">🔗 Открыть DuckDuckGo AI Chat</a>
-        </div>
-        
-        <div class="card">
-            <h3>🤖 GigaChat</h3>
-            <p>Российская нейросеть от Сбера. Хорошо понимает русский язык и российские реалии.</p>
-            <ul class="link-list">
-                <li>✓ <strong>Плюсы:</strong> Работает в России без ограничений, отличное знание русского языка</li>
-                <li>✓ <strong>Как пользоваться:</strong> Можно войти по Сбер ID или использовать без регистрации</li>
-            </ul>
-            <a href="https://giga.chat/" target="_blank" class="btn">🔗 Открыть GigaChat</a>
-        </div>
-        
-        <div class="card">
-            <h3>🚀 Как использовать LinguoAI</h3>
-            <ol style="margin-left: 20px; line-height: 1.6;">
-                <li>Выберите один из AI-сервисов выше и откройте его</li>
-                <li>Скопируйте пример промпта снизу или напишите свой</li>
-                <li>Вставьте текст, который нужно проанализировать или отредактировать</li>
-                <li>Получите результат через несколько секунд — это ИИ в действии!</li>
-            </ol>
-        </div>
-        
-        <div class="card">
-            <h3>📋 Примеры промптов для ваших задач</h3>
-            <ul class="link-list">
-                <li><strong>📊 Анализ текста:</strong> "Ты профессиональный филолог. Проанализируй следующий текст: найдите грамматические ошибки, оцените стиль и структуру. Текст: [вставьте текст]"</li>
-                <li><strong>✅ Исправление ошибок:</strong> "Исправь все грамматические и стилистические ошибки в тексте. Верни только исправленный вариант. Текст: [вставьте текст]"</li>
-                <li><strong>📖 Академический стиль:</strong> "Перепиши следующий текст в строгом академическом научном стиле. Сохрани смысл. Текст: [вставьте текст]"</li>
-                <li><strong>📌 Краткое содержание:</strong> "Сделай краткое содержание текста (3-5 предложений). Выдели самое главное. Текст: [вставьте текст]"</li>
-                <li><strong>✨ Генерация текста:</strong> "Напиши связный, грамотный текст на тему: [опишите тему]"</li>
-            </ul>
-        </div>
-        
-        <div class="footer">
-            🔐 LinguoAI помогает филологам, студентам и всем, кто работает с текстами<br>
-            Бесплатные AI-инструменты для работы с русским языком
+<div class="glass-panel">
+    <div class="header">
+        <div class="logo">
+            <h1>📚 LinguoAI</h1>
+            <p>Филолог нового поколения на основе ИИ</p>
         </div>
     </div>
+
+    <div class="two-columns">
+        <div class="left-panel">
+            <div class="mode-card">
+                <div class="mode-title">✨ Режимы работы</div>
+                <div class="mode-buttons" id="modeButtons">
+                    <button data-mode="analyze" class="mode-btn active">📊 Анализ</button>
+                    <button data-mode="fix" class="mode-btn">✅ Исправить</button>
+                    <button data-mode="academic" class="mode-btn">📖 Академический</button>
+                    <button data-mode="summary" class="mode-btn">📌 Кратко</button>
+                    <button data-mode="generate" class="mode-btn">✨ Сгенерировать</button>
+                </div>
+            </div>
+            <div class="input-area">
+                <textarea id="userText" rows="6" placeholder="Введите текст для обработки..."></textarea>
+                <button class="send-btn" id="sendBtn">🚀 Отправить</button>
+            </div>
+        </div>
+
+        <div class="right-panel">
+            <div class="chat-window" id="chatWindow">
+                <div class="message bot">
+                    <div class="avatar">🤖</div>
+                    <div class="bubble">Здравствуйте! Я LinguoAI — ваш виртуальный филолог. Выберите режим, вставьте текст, и я помогу его проанализировать, исправить или улучшить.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        🔐 Работает на нейросети DeepSeek (бесплатно, ключ обновляется раз в месяц) | Ваши данные не сохраняются
+    </div>
+</div>
+
+<script>
+    // ⚠️ ВАШ API-КЛЮЧ (уже вставлен)
+    const DEEPSEEK_API_KEY = "sk-c3b1eb12a02e4278b914ea28fdd2a44a";
+    
+    let currentMode = "analyze";
+    
+    document.querySelectorAll('.mode-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentMode = btn.dataset.mode;
+        });
+    });
+    
+    function addMessage(role, text) {
+        const chatWindow = document.getElementById('chatWindow');
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${role}`;
+        const avatar = role === 'user' ? '👤' : '🤖';
+        messageDiv.innerHTML = `<div class="avatar">${avatar}</div><div class="bubble">${text.replace(/\n/g, '<br>')}</div>`;
+        chatWindow.appendChild(messageDiv);
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+    }
+    
+    let typingIndicator = null;
+    function showTyping() {
+        const chatWindow = document.getElementById('chatWindow');
+        typingIndicator = document.createElement('div');
+        typingIndicator.className = 'message bot';
+        typingIndicator.innerHTML = `<div class="avatar">🤖</div><div class="bubble typing"><span></span><span></span><span></span></div>`;
+        chatWindow.appendChild(typingIndicator);
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+    }
+    function hideTyping() {
+        if (typingIndicator) typingIndicator.remove();
+        typingIndicator = null;
+    }
+    
+    async function sendRequest() {
+        const text = document.getElementById('userText').value.trim();
+        if (!text) {
+            alert('Введите текст');
+            return;
+        }
+        
+        addMessage('user', text);
+        document.getElementById('userText').value = '';
+        
+        const prompts = {
+            analyze: `Ты профессиональный филолог. Проведи подробный анализ текста: стиль, грамматика, структура, лексика, дай рекомендации. Текст: ${text}`,
+            fix: `Исправь все грамматические, пунктуационные и стилистические ошибки. Верни только исправленный текст. Текст: ${text}`,
+            academic: `Перепиши текст в строгом академическом (научном) стиле. Сохрани смысл, используй формальные обороты. Текст: ${text}`,
+            summary: `Сделай краткое содержание текста (3-5 предложений). Выдели главную мысль. Текст: ${text}`,
+            generate: `Продолжи или разверни текст в связное, интересное, грамотное повествование. Текст: ${text}`
+        };
+        
+        showTyping();
+        
+        try {
+            const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${DEEPSEEK_API_KEY}`
+                },
+                body: JSON.stringify({
+                    model: 'deepseek-chat',
+                    messages: [
+                        { role: 'system', content: 'Ты профессиональный филолог. Отвечай на русском языке, подробно, дружелюбно.' },
+                        { role: 'user', content: prompts[currentMode] }
+                    ],
+                    temperature: 0.7,
+                    max_tokens: 2000
+                })
+            });
+            
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error?.message || `Ошибка ${response.status}`);
+            }
+            
+            const data = await response.json();
+            const reply = data.choices[0].message.content;
+            hideTyping();
+            addMessage('bot', reply);
+        } catch (error) {
+            hideTyping();
+            addMessage('bot', `❌ Ошибка: ${error.message}. Проверьте API-ключ или повторите позже.`);
+        }
+    }
+    
+    document.getElementById('sendBtn').addEventListener('click', sendRequest);
+    
+    // Отправка по Ctrl+Enter
+    document.getElementById('userText').addEventListener('keydown', (e) => {
+        if (e.ctrlKey && e.key === 'Enter') sendRequest();
+    });
+</script>
 </body>
 </html>
