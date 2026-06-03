@@ -37,19 +37,26 @@
             text-align: center;
             margin-bottom: 30px;
         }
-        .chat-container {
+        .card {
+            background: #f8f9fa;
             border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #e0e0e0;
         }
-        iframe {
-            width: 100%;
-            height: 600px;
-            border: none;
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 30px;
+            margin-top: 15px;
+            font-weight: bold;
         }
         .footer {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 30px;
             color: #999;
             font-size: 12px;
         }
@@ -60,6 +67,20 @@
             margin-bottom: 20px;
             font-size: 14px;
         }
+        .link-list {
+            list-style: none;
+            margin: 15px 0;
+        }
+        .link-list li {
+            margin: 10px 0;
+        }
+        .link-list a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        .link-list a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -68,18 +89,55 @@
         <div class="subtitle">Понимает текст. Усиливает смысл.</div>
         
         <div class="info">
-            💡 <strong>Как пользоваться:</strong> Выберите модель в левом меню (GPT-4o-mini или Llama отлично понимают русский), 
-            введите текст и попросите нейросеть его проанализировать, исправить или переписать в академическом стиле.
-            <br><br>
-            🔐 <strong>Безопасно:</strong> DuckDuckGo не сохраняет ваши чаты и не требует регистрации.
+            <strong>💡 LinguoAI — ваш AI-помощник для работы с текстами!</strong><br>
+            Выберите один из бесплатных AI-сервисов ниже, вставьте свой текст и получите его анализ, редактирование или генерацию.
         </div>
         
-        <div class="chat-container">
-            <iframe src="https://duckduckgo.com/?ia=chat" title="DuckDuckGo AI Chat"></iframe>
+        <div class="card">
+            <h3>🦆 DuckDuckGo AI Chat</h3>
+            <p>Популярный и простой сервис с несколькими моделями. Очень хорош для начала.</p>
+            <ul class="link-list">
+                <li>✓ <strong>Модели:</strong> GPT-4o-mini, Llama, Claude (отлично понимают русский язык)</li>
+                <li>✓ <strong>Плюсы:</strong> Бесплатно, без регистрации, анонимно</li>
+                <li>✓ <strong>Как пользоваться:</strong> Выберите модель GPT-4o-mini или Llama для работы на русском языке</li>
+            </ul>
+            <a href="https://duckduckgo.com/?ia=chat" target="_blank" class="btn">🔗 Открыть DuckDuckGo AI Chat</a>
+        </div>
+        
+        <div class="card">
+            <h3>🤖 GigaChat</h3>
+            <p>Российская нейросеть от Сбера. Хорошо понимает русский язык и российские реалии.</p>
+            <ul class="link-list">
+                <li>✓ <strong>Плюсы:</strong> Работает в России без ограничений, отличное знание русского языка</li>
+                <li>✓ <strong>Как пользоваться:</strong> Можно войти по Сбер ID или использовать без регистрации</li>
+            </ul>
+            <a href="https://giga.chat/" target="_blank" class="btn">🔗 Открыть GigaChat</a>
+        </div>
+        
+        <div class="card">
+            <h3>🚀 Как использовать LinguoAI</h3>
+            <ol style="margin-left: 20px; line-height: 1.6;">
+                <li>Выберите один из AI-сервисов выше и откройте его</li>
+                <li>Скопируйте пример промпта снизу или напишите свой</li>
+                <li>Вставьте текст, который нужно проанализировать или отредактировать</li>
+                <li>Получите результат через несколько секунд — это ИИ в действии!</li>
+            </ol>
+        </div>
+        
+        <div class="card">
+            <h3>📋 Примеры промптов для ваших задач</h3>
+            <ul class="link-list">
+                <li><strong>📊 Анализ текста:</strong> "Ты профессиональный филолог. Проанализируй следующий текст: найдите грамматические ошибки, оцените стиль и структуру. Текст: [вставьте текст]"</li>
+                <li><strong>✅ Исправление ошибок:</strong> "Исправь все грамматические и стилистические ошибки в тексте. Верни только исправленный вариант. Текст: [вставьте текст]"</li>
+                <li><strong>📖 Академический стиль:</strong> "Перепиши следующий текст в строгом академическом научном стиле. Сохрани смысл. Текст: [вставьте текст]"</li>
+                <li><strong>📌 Краткое содержание:</strong> "Сделай краткое содержание текста (3-5 предложений). Выдели самое главное. Текст: [вставьте текст]"</li>
+                <li><strong>✨ Генерация текста:</strong> "Напиши связный, грамотный текст на тему: [опишите тему]"</li>
+            </ul>
         </div>
         
         <div class="footer">
-            Работает на базе DuckDuckGo AI Chat | Бесплатно и анонимно
+            🔐 LinguoAI помогает филологам, студентам и всем, кто работает с текстами<br>
+            Бесплатные AI-инструменты для работы с русским языком
         </div>
     </div>
 </body>
