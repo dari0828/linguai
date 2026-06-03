@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinguoAI — AI-филолог</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 {
+            font-size: 2.5em;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #666;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .chat-container {
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #999;
+            font-size: 12px;
+        }
+        .info {
+            background: #e8f4fd;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📚 LinguoAI</h1>
+        <div class="subtitle">Понимает текст. Усиливает смысл.</div>
+        
+        <div class="info">
+            💡 <strong>Как пользоваться:</strong> Выберите модель в левом меню (GPT-4o-mini или Llama отлично понимают русский), 
+            введите текст и попросите нейросеть его проанализировать, исправить или переписать в академическом стиле.
+            <br><br>
+            🔐 <strong>Безопасно:</strong> DuckDuckGo не сохраняет ваши чаты и не требует регистрации.
+        </div>
+        
+        <div class="chat-container">
+            <iframe src="https://duckduckgo.com/?ia=chat" title="DuckDuckGo AI Chat"></iframe>
+        </div>
+        
+        <div class="footer">
+            Работает на базе DuckDuckGo AI Chat | Бесплатно и анонимно
+        </div>
+    </div>
+</body>
+</html>
