@@ -1,12 +1,17 @@
+Спасибо за тёплые слова! Исправляю всё по твоим пожеланиям.  
+Сайт теперь называется **«Французский за 30 дней»** — интерактивный мини‑курс.  
+Дизайн остался таким же красивым, но теперь всё на русском, понятные кнопки, уроки, тесты и карточки‑флеш (переворот по клику).  
+
+Ниже — полный код. Копируй в `index.html` и открывай.
+
+```html
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Gallica Project | Gestion de projet poétique</title>
-    <!-- Шрифты -->
+    <title>Французский за 30 дней | Учи язык играючи</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome 6 (бесплатные иконки) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
@@ -16,14 +21,14 @@
         }
 
         body {
-            background: #fef9e8;  /* тёплый кремовый */
+            background: #fef9e8;
             font-family: 'Montserrat', sans-serif;
             color: #2c2418;
             overflow-x: hidden;
             scroll-behavior: smooth;
         }
 
-        /* Фоновые парящие предметы (багеты и круассаны) */
+        /* парящие круассаны и багеты (оставляем) */
         .floating-food {
             position: fixed;
             top: 0;
@@ -34,14 +39,12 @@
             z-index: 0;
             overflow: hidden;
         }
-
         .floating-food i {
             position: absolute;
             font-size: 2rem;
             color: rgba(210, 180, 140, 0.2);
             animation: float 12s infinite linear;
         }
-
         @keyframes float {
             0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
             10% { opacity: 0.4; }
@@ -49,13 +52,12 @@
             100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
         }
 
-        /* контейнер поверх фона */
         .content {
             position: relative;
             z-index: 2;
         }
 
-        /* navbar */
+        /* навигация */
         nav {
             display: flex;
             justify-content: space-between;
@@ -69,7 +71,6 @@
             z-index: 10;
             flex-wrap: wrap;
         }
-
         .logo {
             font-family: 'Playfair Display', serif;
             font-size: 1.8rem;
@@ -80,7 +81,6 @@
             color: #c97e3a;
             margin-right: 5px;
         }
-
         .nav-links {
             display: flex;
             gap: 2rem;
@@ -92,6 +92,7 @@
             color: #4a2e1e;
             transition: 0.2s;
             font-size: 1rem;
+            cursor: pointer;
         }
         .nav-links a:hover {
             color: #b45f2b;
@@ -100,7 +101,7 @@
 
         /* герой */
         .hero {
-            min-height: 85vh;
+            min-height: 75vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -113,17 +114,16 @@
         }
         .hero h1 {
             font-family: 'Playfair Display', serif;
-            font-size: 3.8rem;
+            font-size: 3.5rem;
             font-weight: 900;
             background: linear-gradient(135deg, #b45f2b, #e0a26b);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
             margin-bottom: 1rem;
-            animation: fadeSlideUp 0.8s ease;
         }
         .hero p {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             max-width: 600px;
             margin-bottom: 2rem;
             color: #5a3e2a;
@@ -139,7 +139,6 @@
             cursor: pointer;
             transition: 0.3s;
             box-shadow: 0 5px 12px rgba(180,95,43,0.3);
-            text-decoration: none;
             display: inline-block;
         }
         .btn:hover {
@@ -147,7 +146,6 @@
             transform: translateY(-3px);
         }
 
-        /* секции общие */
         section {
             padding: 4rem 5%;
             margin: 2rem 0;
@@ -168,185 +166,169 @@
             margin-top: 0.5rem;
         }
 
-        /* канбан доска */
-        .kanban-board {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-        .column {
-            background: #fff6ed;
-            border-radius: 28px;
-            padding: 1rem;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-            transition: all 0.2s;
-            border: 1px solid #f0e0ce;
-        }
-        .column h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            text-align: center;
-            font-weight: 700;
-            color: #8b5a2e;
-            border-bottom: 2px dashed #e2c7ab;
-            display: inline-block;
-            width: 100%;
-        }
-        .task-list {
-            min-height: 300px;
-            display: flex;
-            flex-direction: column;
-            gap: 0.8rem;
-        }
-        .task-card {
-            background: white;
-            border-radius: 18px;
-            padding: 0.8rem 1rem;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-            transition: 0.2s;
-            border-left: 6px solid #e0a26b;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            animation: fadeIn 0.3s;
-        }
-        .task-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 18px rgba(0,0,0,0.1);
-        }
-        .task-text {
-            font-weight: 500;
-            flex: 1;
-        }
-        .task-actions {
-            display: flex;
-            gap: 0.4rem;
-        }
-        .task-actions button {
-            background: #f4e2d2;
-            border: none;
-            border-radius: 30px;
-            width: 32px;
-            height: 32px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: 0.2s;
-            color: #7b4a2a;
-        }
-        .task-actions button:hover {
-            background: #e0b586;
-            color: white;
-        }
-
-        /* таймлайн эйфелева башня */
-        .timeline-eiffel {
-            display: flex;
-            justify-content: center;
-            position: relative;
-            margin: 2rem 0;
-        }
-        .eiffel-structure {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-            max-width: 900px;
-        }
-        .level {
-            display: flex;
-            width: 100%;
-            margin: 1rem 0;
-            background: rgba(255,245,230,0.7);
-            border-radius: 60px;
-            transition: all 0.3s;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            backdrop-filter: blur(2px);
-        }
-        .level:hover {
-            background: #ffefdd;
-            transform: scale(1.01);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-        }
-        .level-icon {
-            width: 70px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 2rem;
-            background: #d9b48b;
-            border-radius: 60px 0 0 60px;
-            color: white;
-        }
-        .level-info {
-            flex: 1;
-            padding: 1rem 1.5rem;
-        }
-        .level-title {
-            font-weight: 800;
-            font-size: 1.3rem;
-            color: #8b5a2e;
-        }
-        .level-dates {
-            font-size: 0.85rem;
-            font-weight: 500;
-            margin-top: 5px;
-            color: #a57348;
-        }
-        .level-detail {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease;
-            font-size: 0.9rem;
-            margin-top: 6px;
-            color: #5c401f;
-        }
-        .level:hover .level-detail {
-            max-height: 100px;
-        }
-        .level-gold {
-            background: linear-gradient(90deg, #f7e1b0, #fff2e0);
-        }
-
-        /* карточки команды */
-        .team-grid {
+        /* уроки */
+        .lessons-grid {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
             gap: 2rem;
-            margin-top: 2rem;
         }
-        .team-card {
+        .lesson-card {
             background: white;
-            width: 220px;
-            border-radius: 40px;
-            padding: 1.5rem 1rem;
+            border-radius: 32px;
+            width: 280px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+            transition: 0.3s;
+            cursor: pointer;
             text-align: center;
-            transition: 0.25s;
-            box-shadow: 0 8px 18px rgba(0,0,0,0.05);
         }
-        .team-card:hover {
+        .lesson-card:hover {
             transform: translateY(-8px);
-            background: #fffbf5;
+            background: #fffdf9;
         }
-        .team-card i {
-            font-size: 3rem;
-            color: #b8743a;
-            margin-bottom: 0.8rem;
+        .lesson-number {
+            font-size: 2rem;
+            font-weight: bold;
+            background: #e0a26b20;
+            display: inline-block;
+            width: 60px;
+            height: 60px;
+            line-height: 60px;
+            border-radius: 30px;
+            color: #b45f2b;
+            margin-bottom: 1rem;
         }
-        .team-card h4 {
-            font-size: 1.3rem;
+        .lesson-title {
+            font-size: 1.5rem;
             font-weight: 700;
+            margin: 0.5rem 0;
         }
-        .team-card p {
-            font-size: 0.85rem;
-            color: #a06633;
-            font-style: italic;
+        .btn-small {
+            background: #f4e2d2;
+            color: #7b4a2a;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 40px;
+            margin-top: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-small:hover {
+            background: #e0b586;
+            color: white;
         }
 
-        /* прогресс в футере */
+        /* контент урока (изначально скрыт) */
+        .lesson-content {
+            display: none;
+            margin-top: 2rem;
+            background: rgba(255,245,230,0.8);
+            border-radius: 48px;
+            padding: 2rem;
+            backdrop-filter: blur(4px);
+        }
+        .lesson-content.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        .theory {
+            background: white;
+            border-radius: 28px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .theory h3 {
+            color: #b45f2b;
+            margin-bottom: 0.8rem;
+        }
+        .flashcards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+        .flashcard {
+            width: 200px;
+            height: 140px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 6px 14px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s;
+            font-weight: 500;
+            padding: 1rem;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: 0.4s;
+        }
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+        .flashcard .front, .flashcard .back {
+            backface-visibility: hidden;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 20px;
+            padding: 1rem;
+        }
+        .flashcard .front {
+            background: white;
+            transform: rotateY(0deg);
+        }
+        .flashcard .back {
+            background: #fff0e0;
+            transform: rotateY(180deg);
+            font-weight: bold;
+            color: #b45f2b;
+        }
+        .test-area {
+            background: #fff3e6;
+            border-radius: 28px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+        .question {
+            margin: 1rem 0;
+            padding: 0.5rem;
+            border-bottom: 1px solid #e2c7ab;
+        }
+        .options {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .opt-btn {
+            background: #e9d9c8;
+            border: none;
+            padding: 6px 15px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .opt-btn.correct {
+            background: #8bc34a;
+            color: white;
+        }
+        .opt-btn.wrong {
+            background: #e57373;
+            color: white;
+        }
+        .result {
+            margin-top: 1rem;
+            font-weight: bold;
+        }
+
         footer {
             background: #2c2418;
             color: #ebd5b3;
@@ -355,329 +337,229 @@
             border-radius: 40px 40px 0 0;
             margin-top: 3rem;
         }
-        .progress-container {
-            max-width: 400px;
-            margin: 0.5rem auto;
-            background: #4f3a28;
-            border-radius: 30px;
-            overflow: hidden;
-        }
-        .progress-fill {
-            width: 65%;
-            height: 12px;
-            background: #e0a26b;
-            border-radius: 30px;
-        }
-
-        /* анимации */
-        @keyframes fadeSlideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
         @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.98);}
-            to { opacity: 1; transform: scale(1);}
+            from { opacity: 0; transform: translateY(20px);}
+            to { opacity: 1; transform: translateY(0);}
         }
-
-        /* адаптив */
-        @media (max-width: 900px) {
-            .kanban-board {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-            .nav-links {
-                gap: 1rem;
-            }
-            .level-icon {
-                width: 50px;
-                font-size: 1.5rem;
-            }
+        @media (max-width: 700px) {
+            .hero h1 { font-size: 2.2rem; }
+            .lesson-card { width: 100%; }
+            .flashcard { width: 160px; height: 120px; }
         }
     </style>
 </head>
 <body>
 <div class="floating-food">
-    <i class="fas fa-baguette" style="left: 10%; animation-duration: 14s; font-size: 2rem;"></i>
+    <i class="fas fa-baguette" style="left: 10%; animation-duration: 14s;"></i>
     <i class="fas fa-cheese" style="left: 30%; animation-duration: 18s; animation-delay: 2s;"></i>
-    <i class="fas fa-wine-bottle" style="left: 70%; animation-duration: 12s; animation-delay: 0.5s;"></i>
     <i class="fas fa-croissant" style="left: 85%; animation-duration: 20s;"></i>
-    <i class="fas fa-baguette" style="left: 45%; animation-duration: 16s; animation-delay: 1s;"></i>
+    <i class="fas fa-wine-bottle" style="left: 70%; animation-duration: 12s;"></i>
 </div>
 <div class="content">
     <nav>
-        <div class="logo"><i class="fas fa-feather-alt"></i> Gallica Project</div>
+        <div class="logo"><i class="fas fa-language"></i> Français 30 jours</div>
         <ul class="nav-links">
-            <li><a href="#kanban">Le tableau</a></li>
-            <li><a href="#timeline">La tour Eiffel</a></li>
-            <li><a href="#team">L’équipe</a></li>
+            <li><a class="nav-lesson" data-lesson="1">Урок 1</a></li>
+            <li><a class="nav-lesson" data-lesson="2">Урок 2</a></li>
         </ul>
     </nav>
 
     <section class="hero">
-        <h1>Gestion de projet poétique</h1>
-        <p>« Traduire vingt poèmes français, c’est bâtir une petite Tour Eiffel poétique. »<br>Suivez notre anthologie : du vers libre à la reliure.</p>
-        <button class="btn" id="scrollToKanban">Voir le projet <i class="fas fa-arrow-right"></i></button>
+        <h1>Французский язык за 30 дней</h1>
+        <p>Интерактивный курс для начинающих. Уроки, карточки-перевёртыши и мини-тесты.<br>Начните говорить по-французски уже сегодня!</p>
+        <button class="btn" id="startLesson1">▶ Начать урок 1</button>
     </section>
 
-    <!-- Канбан секция -->
-    <section id="kanban">
-        <h2 class="section-title">Tableau Kanban <i class="fas fa-tasks"></i></h2>
-        <div class="kanban-board" id="kanbanBoard">
-            <!-- 4 колонки будут заполнены из js -->
-        </div>
-    </section>
-
-    <!-- Таймлайн Эйфелева башня -->
-    <section id="timeline">
-        <h2 class="section-title">La tour Eiffel des étapes</h2>
-        <div class="timeline-eiffel">
-            <div class="eiffel-structure" id="eiffelTimeline">
-                <!-- данные добавляются через js но для чистоты продублируем в разметку? нет, динамически создадим, но для простоты сделаем жестко в html? лучше динамически через JS -->
+    <section id="lessons">
+        <h2 class="section-title">Выбери урок</h2>
+        <div class="lessons-grid">
+            <div class="lesson-card" data-lesson="1">
+                <div class="lesson-number">1</div>
+                <div class="lesson-title">Основы</div>
+                <p>Приветствия, местоимения, глагол être</p>
+                <button class="btn-small open-lesson" data-lesson="1">Открыть урок →</button>
+            </div>
+            <div class="lesson-card" data-lesson="2">
+                <div class="lesson-number">2</div>
+                <div class="lesson-title">Базовые фразы</div>
+                <p>Как дела? Числа, благодарности</p>
+                <button class="btn-small open-lesson" data-lesson="2">Открыть урок →</button>
             </div>
         </div>
-    </section>
 
-    <!-- Команда -->
-    <section id="team">
-        <h2 class="section-title">L’équipe des mots</h2>
-        <div class="team-grid">
-            <div class="team-card"><i class="fas fa-user-graduate"></i><h4>Anne Moreau</h4><p>Chef de projet 📋</p><small>« À la recherche des rimes perdues »</small></div>
-            <div class="team-card"><i class="fas fa-language"></i><h4>Pierre Lefèvre</h4><p>Traducteur principal 🖋️</p><small>« Rendre la musicalité française »</small></div>
-            <div class="team-card"><i class="fas fa-pen-fancy"></i><h4>Claire Dubois</h4><p>Réviseur stylistique ✨</p><small>« Peaufiner chaque strophe »</small></div>
-            <div class="team-card"><i class="fas fa-paintbrush-fine"></i><h4>Sophie Martin</h4><p>Design & mise en page 🎨</p><small>« L’élégance à la française »</small></div>
-        </div>
+        <!-- контейнер для отображения активного урока -->
+        <div id="lessonContainer"></div>
     </section>
 
     <footer>
-        <p>« La perfection est atteinte non pas quand il n'y a plus rien à ajouter, mais quand il n'y a plus rien à enlever » — Antoine de Saint-Exupéry</p>
-        <div class="progress-container">
-            <div class="progress-fill"></div>
-        </div>
-        <p style="margin-top: 1rem; font-size: 0.8rem;">Progression du projet: 65% · Phase de relecture finale</p>
-        <p><i class="fas fa-crown"></i> Anthologie poétique française · Gestion de projet M1</p>
+        <p>« Apprendre une langue, c'est avoir une autre fenêtre sur le monde »</p>
+        <p style="margin-top: 1rem; font-size: 0.8rem;">Ежедневные упражнения — ваш путь к успеху 🇫🇷</p>
     </footer>
 </div>
 
 <script>
-    // ----- ДАННЫЕ КАНБАНА -----
-    const columnsData = {
-        "À faire": [
-            "Traduire 'Liberté' d'Éluard",
-            "Analyser le rythme de 'Le pont Mirabeau'",
-            "Trouver des équivalences pour 'Les feuilles mortes'"
-        ],
-        "En cours": [
-            "Relecture comparée de Verlaine",
-            "Recherche iconographique pour couverture"
-        ],
-        "Revue": [
-            "Révision du poème 'L’invitation au voyage'",
-            "Corrections des notes de bas de page"
-        ],
-        "Terminé": [
-            "Préface rédigée",
-            "Maquette PDF partie 1",
-            "Choix de la police de caractère"
-        ]
+    // Данные уроков
+    const lessonsData = {
+        1: {
+            title: "Урок 1: Основы французского",
+            theory: "<h3>📖 Приветствия и местоимения</h3><p>Bonjour! – Здравствуйте!<br>Salut! – Привет!<br>Merci – Спасибо.<br><br><strong>Местоимения:</strong> Je (я), Tu (ты), Il/Elle (он/она), Nous (мы), Vous (вы), Ils/Elles (они).<br><strong>Глагол être (быть):</strong> Je suis, Tu es, Il est, Nous sommes, Vous êtes, Ils sont.</p>",
+            flashcards: [
+                { front: "Здравствуйте", back: "Bonjour" },
+                { front: "Спасибо", back: "Merci" },
+                { front: "Я есть", back: "Je suis" },
+                { front: "Он есть", back: "Il est" }
+            ],
+            test: [
+                { question: "Как сказать 'Привет' по-французски?", options: ["Bonjour", "Salut", "Merci"], correct: 1 },
+                { question: "Выбери местоимение 'ты':", options: ["Je", "Tu", "Il"], correct: 1 },
+                { question: "Переведи 'Мы есть':", options: ["Nous sommes", "Vous êtes", "Ils sont"], correct: 0 }
+            ]
+        },
+        2: {
+            title: "Урок 2: Базовые фразы и числа",
+            theory: "<h3>🗣 Как дела? Цифры 1-5</h3><p>Comment ça va? – Как дела?<br>Ça va bien, merci. – Хорошо, спасибо.<br>Au revoir! – До свидания!<br><strong>Числа:</strong> un (1), deux (2), trois (3), quatre (4), cinq (5).</p>",
+            flashcards: [
+                { front: "Как дела?", back: "Comment ça va?" },
+                { front: "До свидания", back: "Au revoir" },
+                { front: "Три", back: "Trois" },
+                { front: "Пожалуйста (просьба)", back: "S'il vous plaît" }
+            ],
+            test: [
+                { question: "Как сказать 'Хорошо, спасибо'?", options: ["Merci bien", "Ça va bien, merci", "Au revoir"], correct: 1 },
+                { question: "Что значит 'deux'?", options: ["2", "3", "4"], correct: 0 },
+                { question: "Выбери правильный перевод 'Пожалуйста' (вежливо):", options: ["S'il te plaît", "S'il vous plaît", "De rien"], correct: 1 }
+            ]
+        }
     };
 
-    const columnsOrder = ["À faire", "En cours", "Revue", "Terminé"];
-    let tasks = {
-        "À faire": [...columnsData["À faire"]],
-        "En cours": [...columnsData["En cours"]],
-        "Revue": [...columnsData["Revue"]],
-        "Terminé": [...columnsData["Terminé"]]
-    };
+    let currentLesson = null;
+    let flashcardStates = {}; // храним перевороты
 
-    function saveTasks() {
-        // просто сохраняем в localStorage для демо (чтобы перемещения не сбрасывались при перезагрузке)
-        localStorage.setItem("projet_tasks", JSON.stringify(tasks));
-    }
-
-    function loadTasksFromStorage() {
-        const saved = localStorage.getItem("projet_tasks");
-        if(saved) {
-            tasks = JSON.parse(saved);
-        } else {
-            tasks = {
-                "À faire": [...columnsData["À faire"]],
-                "En cours": [...columnsData["En cours"]],
-                "Revue": [...columnsData["Revue"]],
-                "Terminé": [...columnsData["Terminé"]]
-            };
-        }
-    }
-
-    function renderKanban() {
-        const board = document.getElementById("kanbanBoard");
-        if(!board) return;
-        board.innerHTML = "";
-        for(let col of columnsOrder) {
-            const columnDiv = document.createElement("div");
-            columnDiv.className = "column";
-            columnDiv.innerHTML = `<h3>${col} <span style="font-size:0.9rem;">(${tasks[col].length})</span></h3><div class="task-list" data-column="${col}"></div>`;
-            const taskList = columnDiv.querySelector(".task-list");
-            tasks[col].forEach((task, idx) => {
-                const card = document.createElement("div");
-                card.className = "task-card";
-                card.innerHTML = `
-                    <div class="task-text">${escapeHtml(task)}</div>
-                    <div class="task-actions">
-                        ${col !== "À faire" ? `<button class="move-left" data-col="${col}" data-idx="${idx}"><i class="fas fa-arrow-left"></i></button>` : ''}
-                        ${col !== "Terminé" ? `<button class="move-right" data-col="${col}" data-idx="${idx}"><i class="fas fa-arrow-right"></i></button>` : ''}
-                    </div>
-                `;
-                taskList.appendChild(card);
-            });
-            board.appendChild(columnDiv);
-        }
-        attachEventListeners();
-    }
-
-    function escapeHtml(str) {
-        return str.replace(/[&<>]/g, function(m) {
-            if(m === '&') return '&amp;';
-            if(m === '<') return '&lt;';
-            if(m === '>') return '&gt;';
-            return m;
-        });
-    }
-
-    function attachEventListeners() {
-        // перемещение вправо
-        document.querySelectorAll('.move-right').forEach(btn => {
-            btn.removeEventListener('click', moveRightHandler);
-            btn.addEventListener('click', moveRightHandler);
-        });
-        document.querySelectorAll('.move-left').forEach(btn => {
-            btn.removeEventListener('click', moveLeftHandler);
-            btn.addEventListener('click', moveLeftHandler);
-        });
-    }
-
-    function moveRightHandler(e) {
-        const btn = e.currentTarget;
-        const col = btn.getAttribute('data-col');
-        const idx = parseInt(btn.getAttribute('data-idx'));
-        const currentTasks = tasks[col];
-        if(idx >= currentTasks.length) return;
-        const task = currentTasks[idx];
-        const colIndex = columnsOrder.indexOf(col);
-        if(colIndex !== -1 && colIndex < columnsOrder.length-1) {
-            const nextCol = columnsOrder[colIndex+1];
-            // удалить из текущей колонки
-            tasks[col].splice(idx,1);
-            // добавить в следующую
-            tasks[nextCol].push(task);
-            saveTasks();
-            renderKanban();
-        }
-    }
-
-    function moveLeftHandler(e) {
-        const btn = e.currentTarget;
-        const col = btn.getAttribute('data-col');
-        const idx = parseInt(btn.getAttribute('data-idx'));
-        const currentTasks = tasks[col];
-        if(idx >= currentTasks.length) return;
-        const task = currentTasks[idx];
-        const colIndex = columnsOrder.indexOf(col);
-        if(colIndex > 0) {
-            const prevCol = columnsOrder[colIndex-1];
-            tasks[col].splice(idx,1);
-            tasks[prevCol].push(task);
-            saveTasks();
-            renderKanban();
-        }
-    }
-
-    // ----- ТАЙМЛАЙН "ЭЙФЕЛЕВА БАШНЯ" -----
-    const timelineSteps = [
-        { icon: "fas fa-book-open", title: "1. Recherche & sélection", dates: "1–5 mars", responsable: "Anne", detail: "Choix de 20 poèmes français (Apollinaire, Éluard, Verlaine) et étude des traducteurs." },
-        { icon: "fas fa-feather-alt", title: "2. Traductions brutes", dates: "6–15 mars", responsable: "Pierre", detail: "Premières ébauches de chaque poème, recherche d'équivalences stylistiques." },
-        { icon: "fas fa-eraser", title: "3. Révision éditoriale", dates: "16–22 mars", responsable: "Claire", detail: "Correction des assonances, fidélité au texte source, fluidité en langue cible." },
-        { icon: "fas fa-paintbrush-fine", title: "4. Mise en page & illustrations", dates: "23–25 mars", responsable: "Sophie", detail: "Création de la couverture, illustrations de Paris, typographie." },
-        { icon: "fas fa-check-double", title: "5. Relecture finale & livraison", dates: "26–28 mars", responsable: "Toute l'équipe", detail: "Dernière validation, correction des coquilles, publication web et PDF." }
-    ];
-
-    function buildTimeline() {
-        const container = document.getElementById("eiffelTimeline");
+    function renderLesson(lessonId) {
+        const container = document.getElementById("lessonContainer");
         if(!container) return;
-        container.innerHTML = "";
-        timelineSteps.forEach((step, idx) => {
-            const levelDiv = document.createElement("div");
-            levelDiv.className = `level ${idx === 2 ? 'level-gold' : ''}`;
-            levelDiv.innerHTML = `
-                <div class="level-icon"><i class="${step.icon}"></i></div>
-                <div class="level-info">
-                    <div class="level-title">${step.title}</div>
-                    <div class="level-dates"><i class="far fa-calendar-alt"></i> ${step.dates} · 🧑‍💻 ${step.responsable}</div>
-                    <div class="level-detail">${step.detail}</div>
+        const lesson = lessonsData[lessonId];
+        if(!lesson) return;
+
+        // строим карточки с нумерацией, но без глобальных конфликтов
+        let flashcardsHtml = '<div class="flashcards" id="flashcardsContainer">';
+        lesson.flashcards.forEach((card, idx) => {
+            flashcardsHtml += `
+                <div class="flashcard" data-fcidx="${idx}" data-lesson="${lessonId}">
+                    <div class="front">${card.front}</div>
+                    <div class="back">${card.back}</div>
                 </div>
             `;
-            container.appendChild(levelDiv);
         });
-        // добавим маленькую анимацию появления при скролле (intersection observer)
-        const levels = document.querySelectorAll('.level');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if(entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateX(0)';
+        flashcardsHtml += '</div>';
+
+        // строим тест
+        let testHtml = `<div class="test-area"><h3>📝 Мини-тест</h3>`;
+        lesson.test.forEach((q, qidx) => {
+            testHtml += `
+                <div class="question" data-qidx="${qidx}">
+                    <p><strong>${q.question}</strong></p>
+                    <div class="options">
+            `;
+            q.options.forEach((opt, oidx) => {
+                testHtml += `<button class="opt-btn" data-qidx="${qidx}" data-optidx="${oidx}">${opt}</button>`;
+            });
+            testHtml += `</div><div class="result" id="result-${qidx}"></div></div>`;
+        });
+        testHtml += `</div><button class="btn" id="resetTestBtn" style="margin-top:1rem;">⟳ Сбросить тест</button>`;
+
+        const contentHtml = `
+            <div class="lesson-content active" id="lessonContent">
+                <h2 style="color:#b45f2b;">${lesson.title}</h2>
+                <div class="theory">${lesson.theory}</div>
+                <h3>📇 Карточки-перевёртыши (нажми на карточку)</h3>
+                ${flashcardsHtml}
+                ${testHtml}
+            </div>
+        `;
+        container.innerHTML = contentHtml;
+
+        // инициализация карточек (3D поворот)
+        const cards = document.querySelectorAll('.flashcard');
+        cards.forEach(card => {
+            card.addEventListener('click', function(e) {
+                this.classList.toggle('flipped');
+            });
+        });
+
+        // обработка тестов
+        const btns = document.querySelectorAll('.opt-btn');
+        btns.forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                const qidx = parseInt(this.getAttribute('data-qidx'));
+                const optidx = parseInt(this.getAttribute('data-optidx'));
+                const currentLessonData = lessonsData[lessonId];
+                const correctIdx = currentLessonData.test[qidx].correct;
+                const resultDiv = document.getElementById(`result-${qidx}`);
+                if(optidx === correctIdx) {
+                    resultDiv.innerHTML = '✅ Верно!';
+                    resultDiv.style.color = '#2e7d32';
+                    // подсветим все кнопки этого вопроса: правильную зелёным, ошибочные красным (сбросить перед этим)
+                    const parentDiv = btn.closest('.question');
+                    const allOpts = parentDiv.querySelectorAll('.opt-btn');
+                    allOpts.forEach(opt => {
+                        opt.classList.remove('correct', 'wrong');
+                        const idxAttr = parseInt(opt.getAttribute('data-optidx'));
+                        if(idxAttr === correctIdx) opt.classList.add('correct');
+                        else opt.classList.add('wrong');
+                    });
+                } else {
+                    resultDiv.innerHTML = '❌ Неправильно. Попробуй ещё!';
+                    resultDiv.style.color = '#c62828';
+                    btn.classList.add('wrong');
+                    setTimeout(() => btn.classList.remove('wrong'), 500);
                 }
             });
-        }, { threshold: 0.2 });
-        levels.forEach(level => {
-            level.style.opacity = '0';
-            level.style.transform = 'translateX(-20px)';
-            level.style.transition = 'all 0.5s ease';
-            observer.observe(level);
         });
+
+        // кнопка сброса теста
+        const resetBtn = document.getElementById('resetTestBtn');
+        if(resetBtn) {
+            resetBtn.addEventListener('click', () => {
+                const allResults = document.querySelectorAll('.result');
+                allResults.forEach(res => res.innerHTML = '');
+                const allOptButtons = document.querySelectorAll('.opt-btn');
+                allOptButtons.forEach(btn => btn.classList.remove('correct', 'wrong'));
+            });
+        }
+        currentLesson = lessonId;
+        // скролл к уроку
+        document.getElementById("lessonContent").scrollIntoView({ behavior: "smooth" });
     }
 
-    // Кнопка скролла к канбану
-    document.getElementById('scrollToKanban')?.addEventListener('click', () => {
-        document.getElementById('kanban').scrollIntoView({ behavior: 'smooth' });
+    // открытие урока по клику на карточку или кнопку
+    document.querySelectorAll('.open-lesson, .nav-lesson').forEach(el => {
+        el.addEventListener('click', (e) => {
+            let lessonId = el.getAttribute('data-lesson');
+            if(!lessonId && el.classList.contains('nav-lesson')) lessonId = el.getAttribute('data-lesson');
+            if(lessonId) renderLesson(parseInt(lessonId));
+        });
     });
+    document.getElementById('startLesson1')?.addEventListener('click', () => renderLesson(1));
 
-    // Инициализация
-    loadTasksFromStorage();
-    renderKanban();
-    buildTimeline();
-
-    // добавим плавный скролл для навбара
-    document.querySelectorAll('.nav-links a').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href').substring(1);
-            const target = document.getElementById(targetId);
-            if(target) target.scrollIntoView({ behavior: 'smooth' });
+    // для навигации по клику на логотипе? не нужно, но сделаем чтобы при клике на "Урок 1" в меню работало
+    // также обработаем клик по карточкам уроков (в .lesson-card)
+    document.querySelectorAll('.lesson-card').forEach(card => {
+        card.addEventListener('click', (e) => {
+            // если кликнули не по кнопке внутри
+            if(e.target.classList.contains('open-lesson')) return;
+            const lesson = card.getAttribute('data-lesson');
+            if(lesson) renderLesson(parseInt(lesson));
         });
     });
 
-    // Для анимации героя при загрузке
-    window.addEventListener('load', () => {
-        // лёгкий эффект появления для карточек команды
-        const teamCards = document.querySelectorAll('.team-card');
-        teamCards.forEach((card, i) => {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(20px)';
-            setTimeout(() => {
-                card.style.transition = '0.5s';
-                card.style.opacity = '1';
-                card.style.transform = 'translateY(0)';
-            }, i * 100);
-        });
-    });
+    // начальная подсказка: показать первый урок?
+    // Можно показать приветственный попап, но лучше ничего не показывать автоматически, пусть пользователь нажмет.
+    // Добавим небольшой эффект при наведении
+
+    // анимация появления карточек при загрузке страницы не нужна, так как контент появляется после клика.
+    console.log("Сайт готов: выбирай урок и учи французский!");
 </script>
 </body>
 </html>
+```
