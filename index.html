@@ -1,317 +1,683 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LinguoFeed — новости филологии и гуманитарных наук</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Gallica Project | Gestion de projet poétique</title>
+    <!-- Шрифты -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 (бесплатные иконки) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: #f5f7fb;
-            color: #1e293b;
-            padding: 20px;
+            background: #fef9e8;  /* тёплый кремовый */
+            font-family: 'Montserrat', sans-serif;
+            color: #2c2418;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
         }
-        .container {
-            max-width: 1300px;
-            margin: 0 auto;
+
+        /* Фоновые парящие предметы (багеты и круассаны) */
+        .floating-food {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
         }
-        .header {
-            background: white;
-            border-radius: 30px;
-            padding: 20px 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+
+        .floating-food i {
+            position: absolute;
+            font-size: 2rem;
+            color: rgba(210, 180, 140, 0.2);
+            animation: float 12s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.4; }
+            90% { opacity: 0.4; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* контейнер поверх фона */
+        .content {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* navbar */
+        nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding: 1rem 5%;
+            background: rgba(255, 248, 235, 0.95);
+            backdrop-filter: blur(8px);
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 10;
             flex-wrap: wrap;
         }
-        h1 {
-            font-size: 2rem;
-            background: linear-gradient(135deg, #2563eb, #7c3aed);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-            letter-spacing: -0.5px;
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #b45f2b;
         }
-        .sub {
-            color: #475569;
-            margin-top: 5px;
+        .logo i {
+            color: #c97e3a;
+            margin-right: 5px;
         }
-        .filter-buttons {
+
+        .nav-links {
             display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
+            gap: 2rem;
+            list-style: none;
         }
-        .filter-btn {
-            background: #f1f5f9;
-            border: none;
-            padding: 8px 20px;
-            border-radius: 40px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
-            color: #1e293b;
+        .nav-links a {
+            text-decoration: none;
+            font-weight: 600;
+            color: #4a2e1e;
+            transition: 0.2s;
+            font-size: 1rem;
         }
-        .filter-btn.active {
-            background: #2563eb;
-            color: white;
-            box-shadow: 0 4px 10px rgba(37,99,235,0.3);
+        .nav-links a:hover {
+            color: #b45f2b;
+            border-bottom: 2px solid #b45f2b;
         }
-        .filter-btn:hover {
-            background: #e2e8f0;
-            transform: translateY(-2px);
-        }
-        .news-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-            gap: 25px;
-            margin-bottom: 40px;
-        }
-        .card {
-            background: white;
-            border-radius: 24px;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+
+        /* герой */
+        .hero {
+            min-height: 85vh;
             display: flex;
             flex-direction: column;
-            height: 100%;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, #fff6e8 0%, #fee9cf 100%);
+            border-bottom-left-radius: 60px;
+            border-bottom-right-radius: 60px;
         }
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 30px -12px rgba(0,0,0,0.15);
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.8rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #b45f2b, #e0a26b);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 1rem;
+            animation: fadeSlideUp 0.8s ease;
         }
-        .card-content {
-            padding: 20px;
-            flex: 1;
+        .hero p {
+            font-size: 1.3rem;
+            max-width: 600px;
+            margin-bottom: 2rem;
+            color: #5a3e2a;
         }
-        .card-category {
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            color: #2563eb;
-            margin-bottom: 10px;
-            letter-spacing: 0.5px;
-        }
-        .card-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            line-height: 1.4;
-            margin-bottom: 12px;
-        }
-        .card-title a {
-            color: #0f172a;
+        .btn {
+            background: #b45f2b;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: white;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 5px 12px rgba(180,95,43,0.3);
             text-decoration: none;
-            transition: color 0.2s;
+            display: inline-block;
         }
-        .card-title a:hover {
-            color: #2563eb;
+        .btn:hover {
+            background: #9a4c1e;
+            transform: translateY(-3px);
         }
-        .card-description {
-            color: #475569;
-            font-size: 0.9rem;
-            line-height: 1.5;
-            margin-bottom: 16px;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
+
+        /* секции общие */
+        section {
+            padding: 4rem 5%;
+            margin: 2rem 0;
         }
-        .card-meta {
+        .section-title {
+            font-size: 2.8rem;
+            font-family: 'Playfair Display', serif;
+            text-align: center;
+            margin-bottom: 2.5rem;
+            color: #3b2a1f;
+            position: relative;
+        }
+        .section-title:after {
+            content: "✧";
+            display: block;
+            font-size: 2rem;
+            color: #c97e3a;
+            margin-top: 0.5rem;
+        }
+
+        /* канбан доска */
+        .kanban-board {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        .column {
+            background: #fff6ed;
+            border-radius: 28px;
+            padding: 1rem;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            transition: all 0.2s;
+            border: 1px solid #f0e0ce;
+        }
+        .column h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            font-weight: 700;
+            color: #8b5a2e;
+            border-bottom: 2px dashed #e2c7ab;
+            display: inline-block;
+            width: 100%;
+        }
+        .task-list {
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        .task-card {
+            background: white;
+            border-radius: 18px;
+            padding: 0.8rem 1rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            transition: 0.2s;
+            border-left: 6px solid #e0a26b;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.75rem;
-            color: #64748b;
-            border-top: 1px solid #e2e8f0;
-            padding-top: 12px;
-            margin-top: auto;
+            animation: fadeIn 0.3s;
         }
-        .read-more {
-            background: #f1f5f9;
-            padding: 6px 14px;
-            border-radius: 30px;
-            text-decoration: none;
-            color: #1e293b;
+        .task-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 18px rgba(0,0,0,0.1);
+        }
+        .task-text {
             font-weight: 500;
-            transition: background 0.2s;
+            flex: 1;
         }
-        .read-more:hover {
-            background: #2563eb;
+        .task-actions {
+            display: flex;
+            gap: 0.4rem;
+        }
+        .task-actions button {
+            background: #f4e2d2;
+            border: none;
+            border-radius: 30px;
+            width: 32px;
+            height: 32px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: 0.2s;
+            color: #7b4a2a;
+        }
+        .task-actions button:hover {
+            background: #e0b586;
             color: white;
         }
-        .loader {
+
+        /* таймлайн эйфелева башня */
+        .timeline-eiffel {
+            display: flex;
+            justify-content: center;
+            position: relative;
+            margin: 2rem 0;
+        }
+        .eiffel-structure {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 900px;
+        }
+        .level {
+            display: flex;
+            width: 100%;
+            margin: 1rem 0;
+            background: rgba(255,245,230,0.7);
+            border-radius: 60px;
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(2px);
+        }
+        .level:hover {
+            background: #ffefdd;
+            transform: scale(1.01);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+        .level-icon {
+            width: 70px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            background: #d9b48b;
+            border-radius: 60px 0 0 60px;
+            color: white;
+        }
+        .level-info {
+            flex: 1;
+            padding: 1rem 1.5rem;
+        }
+        .level-title {
+            font-weight: 800;
+            font-size: 1.3rem;
+            color: #8b5a2e;
+        }
+        .level-dates {
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-top: 5px;
+            color: #a57348;
+        }
+        .level-detail {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            font-size: 0.9rem;
+            margin-top: 6px;
+            color: #5c401f;
+        }
+        .level:hover .level-detail {
+            max-height: 100px;
+        }
+        .level-gold {
+            background: linear-gradient(90deg, #f7e1b0, #fff2e0);
+        }
+
+        /* карточки команды */
+        .team-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .team-card {
+            background: white;
+            width: 220px;
+            border-radius: 40px;
+            padding: 1.5rem 1rem;
             text-align: center;
-            padding: 50px;
-            color: #475569;
+            transition: 0.25s;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.05);
         }
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 4px solid #e2e8f0;
-            border-top-color: #2563eb;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            margin: 0 auto 15px;
+        .team-card:hover {
+            transform: translateY(-8px);
+            background: #fffbf5;
         }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        .team-card i {
+            font-size: 3rem;
+            color: #b8743a;
+            margin-bottom: 0.8rem;
         }
-        .error-message {
-            background: #fee2e2;
-            color: #b91c1c;
-            padding: 20px;
-            border-radius: 20px;
+        .team-card h4 {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+        .team-card p {
+            font-size: 0.85rem;
+            color: #a06633;
+            font-style: italic;
+        }
+
+        /* прогресс в футере */
+        footer {
+            background: #2c2418;
+            color: #ebd5b3;
+            padding: 2rem 5%;
             text-align: center;
+            border-radius: 40px 40px 0 0;
+            margin-top: 3rem;
         }
-        .footer {
-            text-align: center;
-            padding: 30px 0;
-            color: #64748b;
-            font-size: 0.8rem;
-            border-top: 1px solid #e2e8f0;
-            margin-top: 20px;
+        .progress-container {
+            max-width: 400px;
+            margin: 0.5rem auto;
+            background: #4f3a28;
+            border-radius: 30px;
+            overflow: hidden;
         }
-        @media (max-width: 700px) {
-            .header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
+        .progress-fill {
+            width: 65%;
+            height: 12px;
+            background: #e0a26b;
+            border-radius: 30px;
+        }
+
+        /* анимации */
+        @keyframes fadeSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
             }
-            .news-grid {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.98);}
+            to { opacity: 1; transform: scale(1);}
+        }
+
+        /* адаптив */
+        @media (max-width: 900px) {
+            .kanban-board {
                 grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .nav-links {
+                gap: 1rem;
+            }
+            .level-icon {
+                width: 50px;
+                font-size: 1.5rem;
             }
         }
     </style>
 </head>
 <body>
-<div class="container">
-    <div class="header">
-        <div>
-            <h1>📚 LinguoFeed</h1>
-            <div class="sub">Актуальные новости лингвистики, литературы и гуманитарных наук</div>
-        </div>
-        <div class="filter-buttons" id="filterButtons">
-            <button class="filter-btn active" data-category="all">Все</button>
-            <button class="filter-btn" data-category="linguistics">🗣 Лингвистика</button>
-            <button class="filter-btn" data-category="literature">📖 Литература</button>
-            <button class="filter-btn" data-category="education">🎓 Образование</button>
-        </div>
-    </div>
+<div class="floating-food">
+    <i class="fas fa-baguette" style="left: 10%; animation-duration: 14s; font-size: 2rem;"></i>
+    <i class="fas fa-cheese" style="left: 30%; animation-duration: 18s; animation-delay: 2s;"></i>
+    <i class="fas fa-wine-bottle" style="left: 70%; animation-duration: 12s; animation-delay: 0.5s;"></i>
+    <i class="fas fa-croissant" style="left: 85%; animation-duration: 20s;"></i>
+    <i class="fas fa-baguette" style="left: 45%; animation-duration: 16s; animation-delay: 1s;"></i>
+</div>
+<div class="content">
+    <nav>
+        <div class="logo"><i class="fas fa-feather-alt"></i> Gallica Project</div>
+        <ul class="nav-links">
+            <li><a href="#kanban">Le tableau</a></li>
+            <li><a href="#timeline">La tour Eiffel</a></li>
+            <li><a href="#team">L’équipe</a></li>
+        </ul>
+    </nav>
 
-    <div id="newsContainer" class="news-grid">
-        <div class="loader"><div class="spinner"></div>Загрузка новостей...</div>
-    </div>
-    <div class="footer">
-        🧠 База новостей редактируется в файле news.json. Добавляйте свои публикации!<br>
-        Данные обновляются при каждом заходе на сайт.
-    </div>
+    <section class="hero">
+        <h1>Gestion de projet poétique</h1>
+        <p>« Traduire vingt poèmes français, c’est bâtir une petite Tour Eiffel poétique. »<br>Suivez notre anthologie : du vers libre à la reliure.</p>
+        <button class="btn" id="scrollToKanban">Voir le projet <i class="fas fa-arrow-right"></i></button>
+    </section>
+
+    <!-- Канбан секция -->
+    <section id="kanban">
+        <h2 class="section-title">Tableau Kanban <i class="fas fa-tasks"></i></h2>
+        <div class="kanban-board" id="kanbanBoard">
+            <!-- 4 колонки будут заполнены из js -->
+        </div>
+    </section>
+
+    <!-- Таймлайн Эйфелева башня -->
+    <section id="timeline">
+        <h2 class="section-title">La tour Eiffel des étapes</h2>
+        <div class="timeline-eiffel">
+            <div class="eiffel-structure" id="eiffelTimeline">
+                <!-- данные добавляются через js но для чистоты продублируем в разметку? нет, динамически создадим, но для простоты сделаем жестко в html? лучше динамически через JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Команда -->
+    <section id="team">
+        <h2 class="section-title">L’équipe des mots</h2>
+        <div class="team-grid">
+            <div class="team-card"><i class="fas fa-user-graduate"></i><h4>Anne Moreau</h4><p>Chef de projet 📋</p><small>« À la recherche des rimes perdues »</small></div>
+            <div class="team-card"><i class="fas fa-language"></i><h4>Pierre Lefèvre</h4><p>Traducteur principal 🖋️</p><small>« Rendre la musicalité française »</small></div>
+            <div class="team-card"><i class="fas fa-pen-fancy"></i><h4>Claire Dubois</h4><p>Réviseur stylistique ✨</p><small>« Peaufiner chaque strophe »</small></div>
+            <div class="team-card"><i class="fas fa-paintbrush-fine"></i><h4>Sophie Martin</h4><p>Design & mise en page 🎨</p><small>« L’élégance à la française »</small></div>
+        </div>
+    </section>
+
+    <footer>
+        <p>« La perfection est atteinte non pas quand il n'y a plus rien à ajouter, mais quand il n'y a plus rien à enlever » — Antoine de Saint-Exupéry</p>
+        <div class="progress-container">
+            <div class="progress-fill"></div>
+        </div>
+        <p style="margin-top: 1rem; font-size: 0.8rem;">Progression du projet: 65% · Phase de relecture finale</p>
+        <p><i class="fas fa-crown"></i> Anthologie poétique française · Gestion de projet M1</p>
+    </footer>
 </div>
 
 <script>
-    let allArticles = [];
-    let currentFilter = "all";
+    // ----- ДАННЫЕ КАНБАНА -----
+    const columnsData = {
+        "À faire": [
+            "Traduire 'Liberté' d'Éluard",
+            "Analyser le rythme de 'Le pont Mirabeau'",
+            "Trouver des équivalences pour 'Les feuilles mortes'"
+        ],
+        "En cours": [
+            "Relecture comparée de Verlaine",
+            "Recherche iconographique pour couverture"
+        ],
+        "Revue": [
+            "Révision du poème 'L’invitation au voyage'",
+            "Corrections des notes de bas de page"
+        ],
+        "Terminé": [
+            "Préface rédigée",
+            "Maquette PDF partie 1",
+            "Choix de la police de caractère"
+        ]
+    };
 
-    async function loadNews() {
-        const container = document.getElementById('newsContainer');
-        container.innerHTML = '<div class="loader"><div class="spinner"></div>Загрузка новостей...</div>';
-        
-        try {
-            const response = await fetch('news.json');
-            if (!response.ok) throw new Error('Не удалось загрузить news.json');
-            const data = await response.json();
-            // ожидаем массив новостей
-            if (!Array.isArray(data)) throw new Error('Некорректный формат JSON, ожидается массив');
-            allArticles = data;
-            // сортировка по дате (новые сверху)
-            allArticles.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
-            renderNews();
-        } catch (error) {
-            console.error(error);
-            container.innerHTML = `<div class="error-message">❌ Ошибка загрузки новостей: ${error.message}. Убедитесь, что файл news.json существует в корне сайта и имеет правильный формат.</div>`;
+    const columnsOrder = ["À faire", "En cours", "Revue", "Terminé"];
+    let tasks = {
+        "À faire": [...columnsData["À faire"]],
+        "En cours": [...columnsData["En cours"]],
+        "Revue": [...columnsData["Revue"]],
+        "Terminé": [...columnsData["Terminé"]]
+    };
+
+    function saveTasks() {
+        // просто сохраняем в localStorage для демо (чтобы перемещения не сбрасывались при перезагрузке)
+        localStorage.setItem("projet_tasks", JSON.stringify(tasks));
+    }
+
+    function loadTasksFromStorage() {
+        const saved = localStorage.getItem("projet_tasks");
+        if(saved) {
+            tasks = JSON.parse(saved);
+        } else {
+            tasks = {
+                "À faire": [...columnsData["À faire"]],
+                "En cours": [...columnsData["En cours"]],
+                "Revue": [...columnsData["Revue"]],
+                "Terminé": [...columnsData["Terminé"]]
+            };
         }
     }
 
-    function renderNews() {
-        const container = document.getElementById('newsContainer');
-        let filtered = allArticles;
-        if (currentFilter !== 'all') {
-            filtered = allArticles.filter(art => art.category === currentFilter);
-        }
-        
-        if (filtered.length === 0) {
-            container.innerHTML = '<div class="error-message">😕 Новостей по выбранной теме пока нет. Попробуйте другой фильтр или добавьте новости в файл news.json.</div>';
-            return;
-        }
-        
-        const html = filtered.map(article => {
-            const dateStr = new Date(article.pubDate).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
-            let categoryLabel = "";
-            switch (article.category) {
-                case 'linguistics': categoryLabel = "🗣 Лингвистика"; break;
-                case 'literature': categoryLabel = "📖 Литература"; break;
-                case 'education': categoryLabel = "🎓 Образование"; break;
-                default: categoryLabel = "📰 Новость";
-            }
-            return `
-                <div class="card">
-                    <div class="card-content">
-                        <div class="card-category">${categoryLabel}</div>
-                        <div class="card-title"><a href="${article.link}" target="_blank" rel="noopener noreferrer">${escapeHtml(article.title)}</a></div>
-                        <div class="card-description">${escapeHtml(article.description)}</div>
-                        <div class="card-meta">
-                            <span>📅 ${dateStr}</span>
-                            <span>📌 ${escapeHtml(article.source)}</span>
-                            <a href="${article.link}" class="read-more" target="_blank">Читать →</a>
-                        </div>
+    function renderKanban() {
+        const board = document.getElementById("kanbanBoard");
+        if(!board) return;
+        board.innerHTML = "";
+        for(let col of columnsOrder) {
+            const columnDiv = document.createElement("div");
+            columnDiv.className = "column";
+            columnDiv.innerHTML = `<h3>${col} <span style="font-size:0.9rem;">(${tasks[col].length})</span></h3><div class="task-list" data-column="${col}"></div>`;
+            const taskList = columnDiv.querySelector(".task-list");
+            tasks[col].forEach((task, idx) => {
+                const card = document.createElement("div");
+                card.className = "task-card";
+                card.innerHTML = `
+                    <div class="task-text">${escapeHtml(task)}</div>
+                    <div class="task-actions">
+                        ${col !== "À faire" ? `<button class="move-left" data-col="${col}" data-idx="${idx}"><i class="fas fa-arrow-left"></i></button>` : ''}
+                        ${col !== "Terminé" ? `<button class="move-right" data-col="${col}" data-idx="${idx}"><i class="fas fa-arrow-right"></i></button>` : ''}
                     </div>
-                </div>
-            `;
-        }).join('');
-        
-        container.innerHTML = html;
+                `;
+                taskList.appendChild(card);
+            });
+            board.appendChild(columnDiv);
+        }
+        attachEventListeners();
     }
-    
+
     function escapeHtml(str) {
-        if (!str) return '';
         return str.replace(/[&<>]/g, function(m) {
-            if (m === '&') return '&amp;';
-            if (m === '<') return '&lt;';
-            if (m === '>') return '&gt;';
+            if(m === '&') return '&amp;';
+            if(m === '<') return '&lt;';
+            if(m === '>') return '&gt;';
             return m;
         });
     }
 
-    function initFilters() {
-        const buttons = document.querySelectorAll('.filter-btn');
-        buttons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                buttons.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                currentFilter = btn.dataset.category;
-                localStorage.setItem('linguoFilter', currentFilter);
-                renderNews();
-            });
+    function attachEventListeners() {
+        // перемещение вправо
+        document.querySelectorAll('.move-right').forEach(btn => {
+            btn.removeEventListener('click', moveRightHandler);
+            btn.addEventListener('click', moveRightHandler);
         });
-        const savedFilter = localStorage.getItem('linguoFilter');
-        if (savedFilter && ['all','linguistics','literature','education'].includes(savedFilter)) {
-            currentFilter = savedFilter;
-            const activeBtn = document.querySelector(`.filter-btn[data-category="${currentFilter}"]`);
-            if (activeBtn) {
-                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                activeBtn.classList.add('active');
-            }
+        document.querySelectorAll('.move-left').forEach(btn => {
+            btn.removeEventListener('click', moveLeftHandler);
+            btn.addEventListener('click', moveLeftHandler);
+        });
+    }
+
+    function moveRightHandler(e) {
+        const btn = e.currentTarget;
+        const col = btn.getAttribute('data-col');
+        const idx = parseInt(btn.getAttribute('data-idx'));
+        const currentTasks = tasks[col];
+        if(idx >= currentTasks.length) return;
+        const task = currentTasks[idx];
+        const colIndex = columnsOrder.indexOf(col);
+        if(colIndex !== -1 && colIndex < columnsOrder.length-1) {
+            const nextCol = columnsOrder[colIndex+1];
+            // удалить из текущей колонки
+            tasks[col].splice(idx,1);
+            // добавить в следующую
+            tasks[nextCol].push(task);
+            saveTasks();
+            renderKanban();
         }
     }
 
-    loadNews();
-    initFilters();
+    function moveLeftHandler(e) {
+        const btn = e.currentTarget;
+        const col = btn.getAttribute('data-col');
+        const idx = parseInt(btn.getAttribute('data-idx'));
+        const currentTasks = tasks[col];
+        if(idx >= currentTasks.length) return;
+        const task = currentTasks[idx];
+        const colIndex = columnsOrder.indexOf(col);
+        if(colIndex > 0) {
+            const prevCol = columnsOrder[colIndex-1];
+            tasks[col].splice(idx,1);
+            tasks[prevCol].push(task);
+            saveTasks();
+            renderKanban();
+        }
+    }
+
+    // ----- ТАЙМЛАЙН "ЭЙФЕЛЕВА БАШНЯ" -----
+    const timelineSteps = [
+        { icon: "fas fa-book-open", title: "1. Recherche & sélection", dates: "1–5 mars", responsable: "Anne", detail: "Choix de 20 poèmes français (Apollinaire, Éluard, Verlaine) et étude des traducteurs." },
+        { icon: "fas fa-feather-alt", title: "2. Traductions brutes", dates: "6–15 mars", responsable: "Pierre", detail: "Premières ébauches de chaque poème, recherche d'équivalences stylistiques." },
+        { icon: "fas fa-eraser", title: "3. Révision éditoriale", dates: "16–22 mars", responsable: "Claire", detail: "Correction des assonances, fidélité au texte source, fluidité en langue cible." },
+        { icon: "fas fa-paintbrush-fine", title: "4. Mise en page & illustrations", dates: "23–25 mars", responsable: "Sophie", detail: "Création de la couverture, illustrations de Paris, typographie." },
+        { icon: "fas fa-check-double", title: "5. Relecture finale & livraison", dates: "26–28 mars", responsable: "Toute l'équipe", detail: "Dernière validation, correction des coquilles, publication web et PDF." }
+    ];
+
+    function buildTimeline() {
+        const container = document.getElementById("eiffelTimeline");
+        if(!container) return;
+        container.innerHTML = "";
+        timelineSteps.forEach((step, idx) => {
+            const levelDiv = document.createElement("div");
+            levelDiv.className = `level ${idx === 2 ? 'level-gold' : ''}`;
+            levelDiv.innerHTML = `
+                <div class="level-icon"><i class="${step.icon}"></i></div>
+                <div class="level-info">
+                    <div class="level-title">${step.title}</div>
+                    <div class="level-dates"><i class="far fa-calendar-alt"></i> ${step.dates} · 🧑‍💻 ${step.responsable}</div>
+                    <div class="level-detail">${step.detail}</div>
+                </div>
+            `;
+            container.appendChild(levelDiv);
+        });
+        // добавим маленькую анимацию появления при скролле (intersection observer)
+        const levels = document.querySelectorAll('.level');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateX(0)';
+                }
+            });
+        }, { threshold: 0.2 });
+        levels.forEach(level => {
+            level.style.opacity = '0';
+            level.style.transform = 'translateX(-20px)';
+            level.style.transition = 'all 0.5s ease';
+            observer.observe(level);
+        });
+    }
+
+    // Кнопка скролла к канбану
+    document.getElementById('scrollToKanban')?.addEventListener('click', () => {
+        document.getElementById('kanban').scrollIntoView({ behavior: 'smooth' });
+    });
+
+    // Инициализация
+    loadTasksFromStorage();
+    renderKanban();
+    buildTimeline();
+
+    // добавим плавный скролл для навбара
+    document.querySelectorAll('.nav-links a').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href').substring(1);
+            const target = document.getElementById(targetId);
+            if(target) target.scrollIntoView({ behavior: 'smooth' });
+        });
+    });
+
+    // Для анимации героя при загрузке
+    window.addEventListener('load', () => {
+        // лёгкий эффект появления для карточек команды
+        const teamCards = document.querySelectorAll('.team-card');
+        teamCards.forEach((card, i) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+                card.style.transition = '0.5s';
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, i * 100);
+        });
+    });
 </script>
 </body>
 </html>
